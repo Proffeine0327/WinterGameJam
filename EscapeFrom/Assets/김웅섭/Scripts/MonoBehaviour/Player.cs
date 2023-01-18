@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpScale;
     [SerializeField] private float gravityMultiplier;
+    [Header("Ground")]
+    [SerializeField] private float groundCastRadius;
+    [SerializeField] private Vector3 groundCastOffset;
     [Header("Mouse")]
     [SerializeField] private Vector2 mouseSensivity;
     [Header("HeadHob")]
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
 
     private void HeadHob()
     {
-        if(!headHobEnabled) return;
+        if (!headHobEnabled) return;
 
         CheckHeadHobMotion();
         ResetHeadPosition();
@@ -113,9 +116,21 @@ public class Player : MonoBehaviour
         if (cc.isGrounded) YVelocity = 0;
         else YVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
 
-        //if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground")))
+            {
+                YVelocity = jumpScale;
+            }
+        }
         dir.y = YVelocity;
 
         cc.Move(dir * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + groundCastOffset, groundCastRadius);
     }
 }
