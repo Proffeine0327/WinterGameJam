@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private static Player player;
+    public static Player player;
 
     [Header("Move")]
     [SerializeField] private float moveSpeed;
