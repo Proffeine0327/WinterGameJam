@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     [SerializeField, Range(0, 30)] private float headHobFrequency;
     [SerializeField] private Transform _camera;
     [SerializeField] private Transform cameraHolder;
+    [Header("Interact")]
+    [SerializeField] public bool isLookingCollection;
+    [SerializeField] public float interactRayDistance;
 
     private CharacterController cc;
     private float YVelocity;
@@ -43,8 +46,78 @@ public class Player : MonoBehaviour
     private void Update()
     {
         HeadHob();
-        CameraMove();
+        CameraRotation();
+        Interact();
         Move();
+    }
+
+    private void Move()
+    {
+        if (isLookingCollection) return;
+
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        var dir = new Vector3(h, 0, v);
+        dir = transform.TransformDirection(dir).normalized;
+        dir *= moveSpeed;
+
+        if (cc.isGrounded) YVelocity = 0;
+        else YVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground")))
+            {
+                YVelocity = jumpScale;
+            }
+        }
+        dir.y = YVelocity;
+
+        cc.Move(dir * Time.deltaTime);
+    }
+
+    private void CameraRotation()
+    {
+        if (isLookingCollection) return;
+
+        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
+
+        MouseAngleY -= mouseY * mouseSensivity.y;
+        MouseAngleY = Mathf.Clamp(MouseAngleY, -90, 80);
+        cameraHolder.localRotation = Quaternion.Euler(MouseAngleY, 0, 0);
+
+        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x, 0));
+    }
+
+    private void Interact()
+    {
+        RaycastHit hitInfo;
+        Physics.Raycast(
+            cameraHolder.transform.position + cameraHolder.transform.forward * 1, 
+            cameraHolder.transform.forward, out hitInfo, 
+            interactRayDistance, 
+            ~LayerMask.GetMask("Player")
+            );
+        
+        if(hitInfo.collider != null)
+        { 
+            IInteractable interactable;
+            if(hitInfo.collider.TryGetComponent<IInteractable>(out interactable))
+            {
+                interactable.ShowUI();
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    interactable.Interact();
+                }         
+            }
+        }
+        else
+        {
+            InteractUI.ControlUI(false, "");
+        }
     }
 
     private void HeadHob()
@@ -92,45 +165,12 @@ public class Player : MonoBehaviour
         return pos;
     }
 
-    private void CameraMove()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
-
-        MouseAngleY -= mouseY * mouseSensivity.y;
-        MouseAngleY = Mathf.Clamp(MouseAngleY, -90, 80);
-        cameraHolder.localRotation = Quaternion.Euler(MouseAngleY, 0, 0);
-
-        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x, 0));
-    }
-
-    private void Move()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        var dir = new Vector3(h, 0, v);
-        dir = transform.TransformDirection(dir).normalized;
-        dir *= moveSpeed;
-
-        if (cc.isGrounded) YVelocity = 0;
-        else YVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground")))
-            {
-                YVelocity = jumpScale;
-            }
-        }
-        dir.y = YVelocity;
-
-        cc.Move(dir * Time.deltaTime);
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + groundCastOffset, groundCastRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(cameraHolder.transform.position + cameraHolder.transform.forward * 1, cameraHolder.transform.position + cameraHolder.transform.forward * (1 + interactRayDistance));
     }
 }
