@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIManager : MonoBehaviour
+public class DefaultAI : MonoBehaviour
 {
     public List<Transform> MovePoint = new List<Transform>(); //순찰지점
     public GameObject player; //플레이어
     NavMeshAgent nav; //NavMeshAgent
-    RaycastHit hit; //레이캐스트
-    Vector3 moveRot; //플레이어 쪽 방향
+   // Vector3 moveRot; //플레이어 쪽 방향
     public float curtime, moveCooltime = 7; //현시점, 움직임 대기시간
     public bool isCastPlayer = false; //플레이어 감지 유무
     
@@ -80,7 +79,7 @@ public class AIManager : MonoBehaviour
             case State.Catch:
                 nav.SetDestination(player.transform.position);
                 
-                if (Vector3.Distance(transform.position, player.transform.position) >= 10f)
+                if (Vector3.Distance(transform.position, player.transform.position) >= 15f)
                 {
                     isCastPlayer = false;
                     state =State.None;
@@ -93,6 +92,7 @@ public class AIManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, 5f);
+        Gizmos.DrawWireSphere(transform.position, 15f);
     }
 
 
