@@ -2,15 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Article : MonoBehaviour, IInteractable
+public class Article : MonoBehaviour, IPhotoable
 {
-    public void Interact()
+    public void Take()
     {
         gameObject.SetActive(false);
-    }
-
-    public void ShowUI()
-    {
-        InteractUI.ControlUI(true, "Get");
     }
 }

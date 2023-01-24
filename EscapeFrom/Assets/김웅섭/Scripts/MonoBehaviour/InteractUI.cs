@@ -9,11 +9,11 @@ public class InteractUI : MonoBehaviour
 
     public static void ControlUI(bool active, string explain)
     {
-        ui.circle.SetActive(active);
-        ui.explain.text = explain;
+        ui.group.SetActive(active);
+        ui.explain.text = $"[E] {explain}";
     }
 
-    [SerializeField] public GameObject circle;
+    [SerializeField] public GameObject group;
     [SerializeField] public TextMeshProUGUI explain;
     
     private void Awake() 
