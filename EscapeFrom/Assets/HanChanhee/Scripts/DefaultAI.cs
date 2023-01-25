@@ -5,23 +5,26 @@ using UnityEngine.AI;
 
 public class DefaultAI : MonoBehaviour
 {
-    public List<Transform> MovePoint = new List<Transform>(); //¼øÂûÁöÁ¡
-    public GameObject player; //ÇÃ·¹ÀÌ¾î
+    public List<Transform> MovePoint = new List<Transform>(); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject player; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½
+    
     NavMeshAgent nav; //NavMeshAgent
-   // Vector3 moveRot; //ÇÃ·¹ÀÌ¾î ÂÊ ¹æÇâ
-    public float curtime, moveCooltime = 7; //Çö½ÃÁ¡, ¿òÁ÷ÀÓ ´ë±â½Ã°£
-    public bool isCastPlayer = false; //ÇÃ·¹ÀÌ¾î °¨Áö À¯¹«
+   // Vector3 moveRot; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float curtime, moveCooltime = 7; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½
+    public bool isCastPlayer = false; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     
     int curPoint = 0;
     
     public State state = State.None;
+    State prevState;
 
     public enum State
     {
-        None, Catch, Move
+        None, Catch, Move, Delay
     }
 
-
+    public float catchDistance;
+    public float followDistance;
     
     void Start()
     {
@@ -32,6 +35,41 @@ public class DefaultAI : MonoBehaviour
     void Update()
     {
         Move();
+        Ray();
+        
+    }
+
+    void Ray()
+    {
+        RaycastHit hit;
+        Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 2);
+        foreach(Collider collider in colliders)
+        {
+            if(collider.gameObject.tag == "Door")
+            {
+                Door door = collider.gameObject.GetComponent<Door>();
+                if(!door.doorEnabled && door.doorState == -1)
+                {
+
+                    curtime = 0;
+                    ChangeState(State.Delay);
+                    door.Interact();
+                } 
+
+            }
+        }
+        
+    }
+
+    
+
+    
+    
+
+    void ChangeState(State s)
+    {
+        prevState = state;
+        state = s;
     }
 
     private void Move()
@@ -40,17 +78,18 @@ public class DefaultAI : MonoBehaviour
         {
             case State.None:
                 curtime += Time.deltaTime;
-                if (Vector3.Distance(transform.position, player.transform.position) < 5f)
+                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance)
                 {
                     curtime = 0;
                     isCastPlayer = true;
-                    state = State.Catch;
+                    
+                    ChangeState(State.Catch);
                     
                 }
                 if (curtime >= moveCooltime)
                 {
                     curtime = 0;
-                    state = State.Move;
+                    ChangeState(State.Move);
                 }
 
                 break;
@@ -66,34 +105,51 @@ public class DefaultAI : MonoBehaviour
                     {
                         curPoint++;
                     }
-                    state = State.None;
+                    ChangeState(State.None);
                 }
-                if (Vector3.Distance(transform.position, player.transform.position) < 5f)
+                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance)
                 {
                     isCastPlayer = true;
-                    state = State.Catch;
-                    
+                    ChangeState(State.Catch);
+
                 }
                 break;
 
             case State.Catch:
                 nav.SetDestination(player.transform.position);
                 
-                if (Vector3.Distance(transform.position, player.transform.position) >= 15f)
+                if (Vector3.Distance(transform.position, player.transform.position) >= followDistance)
                 {
                     isCastPlayer = false;
-                    state =State.None;
+                    ChangeState(State.None);
                 }
                 break;
+            case State.Delay:
+               
+                nav.speed = 0;
+                curtime += Time.deltaTime;
+                if(curtime >= 2f)
+                {
+                    nav.speed = 1.5f;
+                    curtime = 0;
+                    ChangeState(prevState);
+                }
+                break;
+
         }
         
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, 5f);
-        Gizmos.DrawWireSphere(transform.position, 15f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, catchDistance);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, followDistance);
+        
+        Gizmos.DrawWireCube(transform.position, Vector3.one * 2);
     }
+
 
 
 
