@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float stamina; //max : 100;
     [SerializeField] private float increaseStamina;
     [SerializeField] private float decreaseStamina;
-    [SerializeField] private bool isRunning;
+    public bool isRunning;
     [Header("Ground")]
     [SerializeField] private float groundCastRadius;
     [SerializeField] private Vector3 groundCastOffset;
@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private float staminaRecoveryTime;
     private Vector3 headStartPos;
     private Vector3 handCamStartPos;
+
+    public bool isHide = false;
 
     private void Awake()
     {
@@ -154,7 +156,8 @@ public class Player : MonoBehaviour
         }
         else
         {
-            InteractUI.ControlUI(false, "");
+            if(!isHide)
+                InteractUI.ControlUI(false, "");
         }
     }
 

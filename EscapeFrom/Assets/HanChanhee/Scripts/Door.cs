@@ -7,7 +7,8 @@ public class Door : MonoBehaviour, IInteractable
 {
     // Start is called before the first frame update
     public int doorState = -1;
-    public bool doorEnabled = false;    
+    public bool doorEnabled = false;
+    bool isDelay = false;
     public Transform targetDoor;
     public Transform openDoor;
     string explain = "[Door State]";
@@ -37,13 +38,20 @@ public class Door : MonoBehaviour, IInteractable
                 openDoor.position = Vector3.MoveTowards(openDoor.position, new Vector3(targetDoor.position.x, openDoor.position.y, openDoor.position.z), Time.deltaTime * 2);
                 explain = "Close";
                 if (Vector3.Distance(openDoor.position, new Vector3(targetDoor.position.x, openDoor.position.y, openDoor.position.z)) < 0.5f)
+                {
                     doorEnabled = true;
+
+                    isDelay = false;
+                }
                 break;
             case -1:
                 openDoor.position = Vector3.MoveTowards(openDoor.position, originPos, Time.deltaTime * 2);
                 explain = "Open";
                 if (Vector3.Distance(openDoor.position, originPos) < 0.5f)
+                {
                     doorEnabled = false;
+                    isDelay = false;
+                }
                 break;
         }
     }
@@ -59,7 +67,11 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        doorState = doorState * -1;
+        if(!isDelay)
+        {
+            doorState = doorState * -1;
+            isDelay = true;
+        }
        
     }
 

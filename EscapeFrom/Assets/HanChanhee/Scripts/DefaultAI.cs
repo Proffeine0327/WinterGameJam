@@ -14,7 +14,12 @@ public class DefaultAI : MonoBehaviour
     public bool isCastPlayer = false; //�÷��̾� ���� ����
     
     int curPoint = 0;
-    
+
+    public float normalSpeed = 1.5f;
+    public float followSpeed = 2;
+
+    public float doorDelayTime = 1f;
+
     public State state = State.None;
     State prevState;
 
@@ -35,11 +40,11 @@ public class DefaultAI : MonoBehaviour
     void Update()
     {
         Move();
-        Ray();
+        CheckDoor();
         
     }
 
-    void Ray()
+    void CheckDoor()
     {
         RaycastHit hit;
         Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 2);
@@ -74,11 +79,13 @@ public class DefaultAI : MonoBehaviour
 
     private void Move()
     {
+        Player p = player.GetComponent<Player>();
         switch(state)
         {
             case State.None:
+                nav.SetDestination(transform.position);
                 curtime += Time.deltaTime;
-                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance)
+                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance && !p.isHide)
                 {
                     curtime = 0;
                     isCastPlayer = true;
@@ -107,7 +114,7 @@ public class DefaultAI : MonoBehaviour
                     }
                     ChangeState(State.None);
                 }
-                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance)
+                if (Vector3.Distance(transform.position, player.transform.position) < catchDistance && !p.isHide)
                 {
                     isCastPlayer = true;
                     ChangeState(State.Catch);
@@ -116,11 +123,20 @@ public class DefaultAI : MonoBehaviour
                 break;
 
             case State.Catch:
+                nav.speed = followSpeed;
                 nav.SetDestination(player.transform.position);
                 
-                if (Vector3.Distance(transform.position, player.transform.position) >= followDistance)
+                if (Vector3.Distance(transform.position, player.transform.position) >= followDistance || p.isHide)
                 {
                     isCastPlayer = false;
+                    for(int i = 0; i < MovePoint.Count; i++)
+                    {
+                        
+                        if(Vector3.Distance(transform.position, MovePoint[i].position) < Vector3.Distance(transform.position, MovePoint[curPoint].position))
+                        {
+                            curPoint = i;
+                        }
+                    }
                     ChangeState(State.None);
                 }
                 break;
@@ -128,9 +144,9 @@ public class DefaultAI : MonoBehaviour
                
                 nav.speed = 0;
                 curtime += Time.deltaTime;
-                if(curtime >= 2f)
+                if(curtime >= doorDelayTime)
                 {
-                    nav.speed = 1.5f;
+                    nav.speed = normalSpeed;
                     curtime = 0;
                     ChangeState(prevState);
                 }
