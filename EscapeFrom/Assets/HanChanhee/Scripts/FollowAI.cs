@@ -8,6 +8,7 @@ public class FollowAI : MonoBehaviour
 
     public GameObject player; //플레이어
     NavMeshAgent nav;
+    public float speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,6 @@ public class FollowAI : MonoBehaviour
     void Update()
     {
         nav.SetDestination(player.transform.position);
-        
+        nav.speed = speed;
     }
 }
