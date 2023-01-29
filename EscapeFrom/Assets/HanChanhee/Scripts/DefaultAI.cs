@@ -47,17 +47,20 @@ public class DefaultAI : MonoBehaviour
     void CheckDoor()
     {
         RaycastHit hit;
-        Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 2);
+        Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 1.5f);
         foreach(Collider collider in colliders)
         {
             if(collider.gameObject.tag == "Door")
             {
                 Door door = collider.gameObject.GetComponent<Door>();
-                if(!door.doorEnabled && door.doorState == -1)
+                if(!door.doorEnabled && door.doorState == -1 )
                 {
+                    if(!door.isLocked)
+                    {
+                        curtime = 0;
+                        ChangeState(State.Delay);
 
-                    curtime = 0;
-                    ChangeState(State.Delay);
+                    }
                     door.Open();
                 } 
 
@@ -163,7 +166,7 @@ public class DefaultAI : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, followDistance);
         
-        Gizmos.DrawWireCube(transform.position, Vector3.one * 2);
+        Gizmos.DrawWireCube(transform.position, Vector3.one * 1.5f);
     }
 
 

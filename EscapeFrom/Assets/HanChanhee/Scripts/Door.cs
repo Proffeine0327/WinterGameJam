@@ -94,8 +94,16 @@ public class Door : MonoBehaviour, IInteractable
             isDelay = true;
         } else if(isLocked)
         {
+            if(Key.keys.Contains(keyName))
+            {
+                isLocked = false;
+                ui.GetComponent<TextMeshProUGUI>().text = "The Door is Opened";
+            } else
+            {
+                ui.GetComponent<TextMeshProUGUI>().text = "The Door is Locked";
+
+            }
             ui.SetActive(true);
-            ui.GetComponent<TextMeshProUGUI>().text = "The Door is Locked";
 
             if (!isActiveActionBar)
             {

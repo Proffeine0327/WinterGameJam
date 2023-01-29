@@ -91,6 +91,7 @@ public class Hide : MonoBehaviour, IInteractable
 
     public void ShowUI()
     {
+        
         InteractUI.ControlUI(true, explain);
     }
 

@@ -68,13 +68,14 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        HeadHob();
         CameraRotation();
         Interact();
         Move();
         HandCamera();
+        HeadHob();
     }
 
+    
     private void Move()
     {
         if (isLookingCollection) return;
@@ -195,7 +196,7 @@ public class Player : MonoBehaviour
         Vector3 pos = Vector3.zero;
         pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.0075f : 0.004f);
         pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.0075f : 0.004f) * 2;
-        return pos;
+        return pos * Time.deltaTime * 100;
     }
 
     private void ResetHeadPosition()
