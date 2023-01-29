@@ -58,7 +58,7 @@ public class DefaultAI : MonoBehaviour
 
                     curtime = 0;
                     ChangeState(State.Delay);
-                    door.Interact();
+                    door.Open();
                 } 
 
             }
