@@ -10,7 +10,7 @@ public class Hide : MonoBehaviour, IInteractable
     public bool isHide = false;
     public Transform player;
     public Transform outPos;
-    public GameObject ui;
+    bool isDelay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +21,11 @@ public class Hide : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        Out();
+        if(isDelay)
+        {
+
+            Out();
+        }
     }
     public void Interact()
     {
@@ -40,10 +44,11 @@ public class Hide : MonoBehaviour, IInteractable
            
         } if(!isHide && !p.isHide)
         {
-            
             isHide = true;
+           
             p.isHide = true;
             p.isRunning = false;
+            p.SetHeadHob(false);
             explain = "Out";
             CharacterController cc = player.GetComponent<CharacterController>();
             cc.enabled = false;
@@ -52,6 +57,7 @@ public class Hide : MonoBehaviour, IInteractable
             hideObject.position;
             //p.enabled = true;
             player.eulerAngles = new Vector3(hideObject.rotation.x, hideObject.rotation.y - 90, hideObject.rotation.z);
+            StartCoroutine(delay());
         }
     }
 
@@ -71,6 +77,7 @@ public class Hide : MonoBehaviour, IInteractable
             
             isHide = false;
             p.isHide=false;
+            p.SetHeadHob(true);
             explain = "Hide";
             CharacterController cc = player.GetComponent<CharacterController>();
             cc.enabled = false;
@@ -78,11 +85,18 @@ public class Hide : MonoBehaviour, IInteractable
             cc.transform.position =
             outPos.position;
             cc.enabled = true;
+            isDelay = false;
         }
     }
 
     public void ShowUI()
     {
         InteractUI.ControlUI(true, explain);
+    }
+
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isDelay = true;
     }
 }

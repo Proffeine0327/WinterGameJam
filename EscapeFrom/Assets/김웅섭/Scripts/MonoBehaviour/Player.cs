@@ -47,6 +47,11 @@ public class Player : MonoBehaviour
 
     public bool isHide = false;
 
+    public void SetHeadHob(bool value)
+    {
+        headHobEnabled = value;
+    }
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
