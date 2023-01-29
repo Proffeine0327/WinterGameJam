@@ -72,7 +72,7 @@ public class Hide : MonoBehaviour, IInteractable
         } 
        
         
-        if(Input.GetKeyDown(KeyCode.E) && isHide && p.isHide)
+        if(Input.GetKeyDown(KeyCode.E) && isHide && p.isHide && isDelay)
         {
             
             isHide = false;
