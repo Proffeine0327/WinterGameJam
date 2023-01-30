@@ -8,7 +8,6 @@ public class Hide : MonoBehaviour, IInteractable
     public Transform hideObject;
     public string explain = "Hide";
     public bool isHide = false;
-    public Transform player;
     public Transform outPos;
     bool isDelay = false;
 
@@ -29,7 +28,7 @@ public class Hide : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        Player p = player.GetComponent<Player>();
+        Player p = Player.player;
         if(isHide)
         {
             
@@ -50,13 +49,13 @@ public class Hide : MonoBehaviour, IInteractable
             p.isRunning = false;
             p.SetHeadHob(false);
             explain = "Out";
-            CharacterController cc = player.GetComponent<CharacterController>();
+            CharacterController cc = p.GetComponent<CharacterController>();
             cc.enabled = false;
 
             cc.transform.position =
             hideObject.position;
             //p.enabled = true;
-            player.eulerAngles = new Vector3(hideObject.rotation.x, hideObject.rotation.y - 90, hideObject.rotation.z);
+            p.transform.eulerAngles = new Vector3(hideObject.rotation.x, hideObject.rotation.y - 90, hideObject.rotation.z);
             StartCoroutine(delay());
         }
     }
@@ -65,7 +64,7 @@ public class Hide : MonoBehaviour, IInteractable
 
     void Out()
     {
-        Player p = player.GetComponent<Player>();
+        Player p = Player.player;
         if(isHide && p.isHide)
         {
             InteractUI.ControlUI(true, explain);
@@ -79,7 +78,7 @@ public class Hide : MonoBehaviour, IInteractable
             p.isHide=false;
             p.SetHeadHob(true);
             explain = "Hide";
-            CharacterController cc = player.GetComponent<CharacterController>();
+            CharacterController cc = p.GetComponent<CharacterController>();
             cc.enabled = false;
 
             cc.transform.position =

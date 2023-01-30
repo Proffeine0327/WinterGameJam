@@ -11,13 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpScale;
     [SerializeField] private float gravityMultiplier;
-    [SerializeField] private float stamina; //max : 100;
+    [SerializeField] private float stamina; //max == 100;
     [SerializeField] private float increaseStamina;
     [SerializeField] private float decreaseStamina;
     public bool isRunning;
+    [Header("Move Sound")]
+    [SerializeField] private float walkSoundTime;
+    [SerializeField] private float runSoundTime;
     [Header("Ground")]
     [SerializeField] private float groundCastRadius;
     [SerializeField] private Vector3 groundCastOffset;
+    [SerializeField] private bool isGround;
     [Header("Mouse")]
     [SerializeField] private Vector2 mouseSensivity;
     [Header("HeadHob")]
@@ -32,6 +36,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera handCameraLens;
     [SerializeField] private Vector3 handCamZoomPos;
     [SerializeField] private bool isZoom;
+    [Header("Hide")]
+    public bool isHide = false;
 
     public float Stamina { get { return stamina; } }
 
@@ -42,10 +48,9 @@ public class Player : MonoBehaviour
     private float MouseAngleY;
     private float headHobToggleSpeed = 1f;
     private float staminaRecoveryTime;
+    private float currentMoveSoundTime;
     private Vector3 headStartPos;
     private Vector3 handCamStartPos;
-
-    public bool isHide = false;
 
     public void SetHeadHob(bool value)
     {
@@ -72,6 +77,7 @@ public class Player : MonoBehaviour
         CameraRotation();
         Interact();
         Move();
+        MoveSound();
         HandCamera();
     }
 
@@ -81,7 +87,7 @@ public class Player : MonoBehaviour
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        bool isGround = Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground"));
+        isGround = Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground"));
 
         var dir = new Vector3(h, 0, v);
         dir = transform.TransformDirection(dir).normalized;
@@ -140,7 +146,7 @@ public class Player : MonoBehaviour
     {
         RaycastHit hitInfo;
         Physics.Raycast(
-            cameraHolder.transform.position + cameraHolder.transform.forward * 1,
+            cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f,
             cameraHolder.transform.forward, out hitInfo,
             interactRayDistance,
             ~LayerMask.GetMask("Player")
@@ -195,7 +201,7 @@ public class Player : MonoBehaviour
         Vector3 pos = Vector3.zero;
         pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.0075f : 0.004f);
         pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.0075f : 0.004f) * 2;
-        return pos;
+        return pos * Time.deltaTime * 100;
     }
 
     private void ResetHeadPosition()
@@ -209,6 +215,24 @@ public class Player : MonoBehaviour
         Vector3 pos = new Vector3(transform.position.x, transform.position.y + cameraHolder.localPosition.y, transform.position.z);
         pos += cameraHolder.forward * 15f;
         return pos;
+    }
+
+    private void MoveSound()
+    {
+        var vel = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;
+        
+        if(vel > 1 && isGround)
+        if(currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
+        {
+            var random = Random.Range(0, 9);
+            
+            SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
+            currentMoveSoundTime = 0;
+        }
+        else
+        {
+            currentMoveSoundTime += Time.deltaTime;
+        }
     }
 
     private void HandCamera()
@@ -248,6 +272,6 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + groundCastOffset, groundCastRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(cameraHolder.transform.position + cameraHolder.transform.forward * 1, cameraHolder.transform.position + cameraHolder.transform.forward * (1 + interactRayDistance));
+        Gizmos.DrawLine(cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f, cameraHolder.transform.position + cameraHolder.transform.forward * (0.5f + interactRayDistance));
     }
 }

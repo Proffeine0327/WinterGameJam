@@ -41,12 +41,10 @@ public class DefaultAI : MonoBehaviour
     {
         Move();
         CheckDoor();
-        
     }
 
     void CheckDoor()
     {
-        RaycastHit hit;
         Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 2);
         foreach(Collider collider in colliders)
         {
@@ -65,11 +63,6 @@ public class DefaultAI : MonoBehaviour
         }
         
     }
-
-    
-
-    
-    
 
     void ChangeState(State s)
     {
@@ -165,8 +158,4 @@ public class DefaultAI : MonoBehaviour
         
         Gizmos.DrawWireCube(transform.position, Vector3.one * 2);
     }
-
-
-
-
 }
