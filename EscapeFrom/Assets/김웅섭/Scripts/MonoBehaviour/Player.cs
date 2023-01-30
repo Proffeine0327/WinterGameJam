@@ -73,14 +73,15 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        HeadHob();
         CameraRotation();
         Interact();
         Move();
         MoveSound();
         HandCamera();
+        HeadHob();
     }
 
+    
     private void Move()
     {
         if (isLookingCollection) return;

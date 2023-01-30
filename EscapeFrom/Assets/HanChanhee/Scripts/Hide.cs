@@ -8,11 +8,13 @@ public class Hide : MonoBehaviour, IInteractable
     public Transform hideObject;
     public string explain = "Hide";
     public bool isHide = false;
+   
     public Transform outPos;
     bool isDelay = false;
+    public float angle = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
     }
@@ -55,7 +57,7 @@ public class Hide : MonoBehaviour, IInteractable
             cc.transform.position =
             hideObject.position;
             //p.enabled = true;
-            p.transform.eulerAngles = new Vector3(hideObject.rotation.x, hideObject.rotation.y - 90, hideObject.rotation.z);
+            p.transform.eulerAngles = new Vector3(hideObject.rotation.x, angle, hideObject.rotation.z);
             StartCoroutine(delay());
         }
     }
@@ -67,11 +69,12 @@ public class Hide : MonoBehaviour, IInteractable
         Player p = Player.player;
         if(isHide && p.isHide)
         {
+            
             InteractUI.ControlUI(true, explain);
         } 
        
         
-        if(Input.GetKeyDown(KeyCode.E) && isHide && p.isHide)
+        if(Input.GetKeyDown(KeyCode.E) && isHide && p.isHide && isDelay)
         {
             
             isHide = false;
@@ -80,6 +83,7 @@ public class Hide : MonoBehaviour, IInteractable
             explain = "Hide";
             CharacterController cc = p.GetComponent<CharacterController>();
             cc.enabled = false;
+            
 
             cc.transform.position =
             outPos.position;
@@ -90,11 +94,14 @@ public class Hide : MonoBehaviour, IInteractable
 
     public void ShowUI()
     {
+        
         InteractUI.ControlUI(true, explain);
     }
 
     IEnumerator delay()
     {
+        explain = "Out";
+        InteractUI.ControlUI(true, explain);
         yield return new WaitForSeconds(0.5f);
         isDelay = true;
     }
