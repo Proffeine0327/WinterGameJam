@@ -55,7 +55,7 @@ public class Hide : MonoBehaviour, IInteractable
             cc.enabled = false;
 
             cc.transform.position =
-            hideObject.position;
+                hideObject.position;
             //p.enabled = true;
             p.transform.eulerAngles = new Vector3(hideObject.rotation.x, angle, hideObject.rotation.z);
             StartCoroutine(delay());
@@ -86,7 +86,7 @@ public class Hide : MonoBehaviour, IInteractable
             
 
             cc.transform.position =
-            outPos.position;
+                outPos.position;
             cc.enabled = true;
             isDelay = false;
         }

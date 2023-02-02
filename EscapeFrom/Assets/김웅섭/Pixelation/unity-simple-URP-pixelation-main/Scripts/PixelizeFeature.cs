@@ -10,6 +10,7 @@ public class PixelizeFeature : ScriptableRendererFeature
     public class CustomPassSettings
     {
         public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
+        public Shader pixelize;
         public int screenHeight = 90;
     }
 

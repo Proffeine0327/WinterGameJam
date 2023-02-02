@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
 
         player = this;
 
@@ -73,12 +73,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        CameraRotation();
-        Interact();
-        Move();
-        MoveSound();
-        HandCamera();
-        HeadHob();
+        // CameraRotation();
+        // Interact();
+        // Move();
+        // MoveSound();
+        // HandCamera();
+        // HeadHob();
     }
 
     
@@ -136,11 +136,11 @@ public class Player : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
 
-        MouseAngleY -= mouseY * mouseSensivity.y;
+        MouseAngleY -= mouseY * mouseSensivity.y * 100;
         MouseAngleY = Mathf.Clamp(MouseAngleY, -85, 80);
         cameraHolder.localRotation = Quaternion.Euler(MouseAngleY, 0, 0);
 
-        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x, 0));
+        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x * 100, 0));
     }
 
     private void Interact()
@@ -168,8 +168,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(!isHide)
-                InteractUI.ControlUI(false, "");
+            InteractUI.ControlUI(false, "");
         }
     }
 
