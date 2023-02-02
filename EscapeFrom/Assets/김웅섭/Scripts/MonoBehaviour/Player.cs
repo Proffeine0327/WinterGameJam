@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         player = this;
 
@@ -73,15 +73,22 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // CameraRotation();
-        // Interact();
-        // Move();
-        // MoveSound();
-        // HandCamera();
-        // HeadHob();
+        if (EscUI.IsShowingEscMenu) return;
+        
+        EventHandle();
+        CameraRotation();
+        Interact();
+        Move();
+        MoveSound();
+        HandCamera();
+        HeadHob();
     }
 
-    
+    private void EventHandle()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
+    }
+
     private void Move()
     {
         if (isLookingCollection) return;
@@ -220,19 +227,19 @@ public class Player : MonoBehaviour
     private void MoveSound()
     {
         var vel = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;
-        
-        if(vel > 1 && isGround)
-        if(currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
-        {
-            var random = Random.Range(0, 9);
-            
-            SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
-            currentMoveSoundTime = 0;
-        }
-        else
-        {
-            currentMoveSoundTime += Time.deltaTime;
-        }
+
+        if (vel > 1 && isGround)
+            if (currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
+            {
+                var random = Random.Range(0, 9);
+
+                SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
+                currentMoveSoundTime = 0;
+            }
+            else
+            {
+                currentMoveSoundTime += Time.deltaTime;
+            }
     }
 
     private void HandCamera()
