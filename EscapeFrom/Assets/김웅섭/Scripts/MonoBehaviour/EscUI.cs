@@ -31,29 +31,28 @@ public class EscUI : MonoBehaviour
     [Header("Setting")]
     [SerializeField] private GameObject settingGroup;
     [SerializeField] private Slider hSensivity;
-    [SerializeField] private TMP_InputField hSensivityText;
+    [SerializeField] private TMP_InputField hSensivityInputField;
     [SerializeField] private Slider vSensivity;
-    [SerializeField] private TMP_InputField vSensivityText;
+    [SerializeField] private TMP_InputField vSensivityInputField;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private TMP_InputField volumeInputField;
     [SerializeField] private Button return2menu;
     [Header("SaveFile")]
     [SerializeField] private SettingInfo settingInfo;
 
     public static bool IsShowingEscMenu { get { return ui.isShowingEscMenu; } }
+    public static SettingInfo SettingInfo { get { return ui.settingInfo; } }
 
-    public bool isHSensivityTextSelected;
-    public bool isVSensivityTextSelected;
+    public bool isHSensivityInputFieldSelected;
+    public bool isVSensivityInputFieldSelected;
+    public bool isVolumeInputFieldSelected;
 
     private void Awake()
     {
         ui = this;
-    }
 
-    void Start()
-    {
         return2menu.onClick.AddListener(() =>
         {
-            settingInfo.mouseSensivity.x = hSensivity.value;
-            settingInfo.mouseSensivity.y = vSensivity.value;
             SaveLoadManager.Save("test/test.json", settingInfo);
 
             menuGroup.SetActive(true);
@@ -83,28 +82,47 @@ public class EscUI : MonoBehaviour
 #endif
             Application.Quit();
         });
-        
-        hSensivityText.onSubmit.AddListener((str) => {
+
+        hSensivityInputField.onSubmit.AddListener((str) =>
+        {
             float value;
-            if(float.TryParse(str, out value))
+            if (float.TryParse(str, out value))
             {
-               hSensivity.value = value; 
+                hSensivity.value = value;
             }
-            isHSensivityTextSelected = false;
+            isHSensivityInputFieldSelected = false;
         });
 
-        vSensivityText.onSubmit.AddListener((str) => {
+        vSensivityInputField.onSubmit.AddListener((str) =>
+        {
             float value;
-            if(float.TryParse(str, out value))
+            if (float.TryParse(str, out value))
             {
-               hSensivity.value = value; 
+                vSensivity.value = value;
             }
-            isVSensivityTextSelected = false;
+            isVSensivityInputFieldSelected = false;
         });
 
-        SaveLoadManager.Load<SettingInfo>("test/test.json", ref settingInfo);
+        volumeInputField.onSubmit.AddListener((str) =>
+        {
+            int value;
+            if (int.TryParse(str, out value))
+            {
+                volumeSlider.value = value;
+            }
+            isVolumeInputFieldSelected = false;
+        });
+
+        if(!SaveLoadManager.Load<SettingInfo>("test/test.json", ref settingInfo))
+        {
+            var newSetting = new SettingInfo(Vector2.one * 1.5f, 50);
+            settingInfo = newSetting;
+            SaveLoadManager.Save("test/test.json", newSetting);
+        }
+
         hSensivity.value = settingInfo.mouseSensivity.x;
         vSensivity.value = settingInfo.mouseSensivity.y;
+        volumeSlider.value = settingInfo.volume;
 
         background.SetActive(false);
         menuGroup.SetActive(false);
@@ -113,13 +131,31 @@ public class EscUI : MonoBehaviour
 
     private void Update()
     {
-        isHSensivityTextSelected = hSensivityText.isFocused;
-        isVSensivityTextSelected = vSensivityText.isFocused;
+        ApplyValue();
+        InputFieldHandle();
+    }
 
-        if (!isHSensivityTextSelected)
-            hSensivityText.text = Math.Round(hSensivity.value, 2).ToString();
+    private void ApplyValue()
+    {
+        settingInfo.mouseSensivity.x = hSensivity.value;
+        settingInfo.mouseSensivity.y = vSensivity.value;
 
-        if (!isVSensivityTextSelected)
-            vSensivityText.text = Math.Round(vSensivity.value, 2).ToString();
+        settingInfo.volume = volumeSlider.value;
+    }
+
+    private void InputFieldHandle()
+    {
+        isHSensivityInputFieldSelected = hSensivityInputField.isFocused;
+        isVSensivityInputFieldSelected = vSensivityInputField.isFocused;
+        isVolumeInputFieldSelected = volumeInputField.isFocused;
+
+        if (!isHSensivityInputFieldSelected)
+            hSensivityInputField.text = Math.Round(hSensivity.value, 2).ToString();
+
+        if (!isVSensivityInputFieldSelected)
+            vSensivityInputField.text = Math.Round(vSensivity.value, 2).ToString();
+
+        if (!isVolumeInputFieldSelected)
+            volumeInputField.text = volumeSlider.value.ToString();
     }
 }

@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
     {
         if (EscUI.IsShowingEscMenu) return;
         
+        GetSettingValue();
         EventHandle();
         CameraRotation();
         Interact();
@@ -82,6 +83,12 @@ public class Player : MonoBehaviour
         MoveSound();
         HandCamera();
         HeadHob();
+    }
+
+    private void GetSettingValue()
+    {
+        mouseSensivity.x = EscUI.SettingInfo.mouseSensivity.x;
+        mouseSensivity.y = EscUI.SettingInfo.mouseSensivity.y;
     }
 
     private void EventHandle()

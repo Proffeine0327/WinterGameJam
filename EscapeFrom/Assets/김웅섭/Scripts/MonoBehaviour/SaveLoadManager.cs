@@ -5,10 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveLoadManager : MonoBehaviour
-{
-    private static SaveLoadManager manager;
-    
+public static class SaveLoadManager
+{    
     /// <summary>
     /// Create file and write object
     /// </summary>
@@ -39,7 +37,9 @@ public class SaveLoadManager : MonoBehaviour
     /// </summary>
     /// <param name="path">Path to read file, contains Application.datapath</param>
     /// <param name="obj2overrite">Object to overrite</param>
-    public static void Load<T>(string path, ref T obj2overrite)
+    /// <typeparam name="T">Typeof object</typeparam>
+    /// <returns>Return false if load is failure</returns>
+    public static bool Load<T>(string path, ref T obj2overrite)
     {
         var directorys = path.Split("/");
 
@@ -50,18 +50,14 @@ public class SaveLoadManager : MonoBehaviour
             checkPath.Append('/' + directorys[i]);
             
             if(!Directory.Exists(checkPath.ToString())) 
-                throw new NullReferenceException("Directory is not exist");
+                return false;
         }
         checkPath.Append('/' + directorys[directorys.Length - 1]);
 
-        if(!File.Exists(checkPath.ToString())) throw new NullReferenceException("File is not exist");
+        if(!File.Exists(checkPath.ToString())) return false;
 
         var jsonStr = File.ReadAllText(checkPath.ToString());
         JsonUtility.FromJsonOverwrite(jsonStr, obj2overrite);
-    }
-
-    private void Awake() 
-    {
-        manager = this;
+        return true;
     }
 }
