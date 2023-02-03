@@ -73,6 +73,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (EscUI.IsShowingEscMenu) return;
+        
+        GetSettingValue();
+        EventHandle();
         CameraRotation();
         Interact();
         Move();
@@ -81,7 +85,17 @@ public class Player : MonoBehaviour
         HeadHob();
     }
 
-    
+    private void GetSettingValue()
+    {
+        mouseSensivity.x = EscUI.SettingInfo.mouseSensivity.x;
+        mouseSensivity.y = EscUI.SettingInfo.mouseSensivity.y;
+    }
+
+    private void EventHandle()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
+    }
+
     private void Move()
     {
         if (isLookingCollection) return;
@@ -136,11 +150,11 @@ public class Player : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
 
-        MouseAngleY -= mouseY * mouseSensivity.y;
+        MouseAngleY -= mouseY * mouseSensivity.y * 100;
         MouseAngleY = Mathf.Clamp(MouseAngleY, -85, 80);
         cameraHolder.localRotation = Quaternion.Euler(MouseAngleY, 0, 0);
 
-        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x, 0));
+        transform.Rotate(new Vector3(0, mouseX * mouseSensivity.x * 100, 0));
     }
 
     private void Interact()
@@ -168,8 +182,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            if(!isHide)
-                InteractUI.ControlUI(false, "");
+            InteractUI.ControlUI(false, "");
         }
     }
 
@@ -221,19 +234,19 @@ public class Player : MonoBehaviour
     private void MoveSound()
     {
         var vel = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;
-        
-        if(vel > 1 && isGround)
-        if(currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
-        {
-            var random = Random.Range(0, 9);
-            
-            SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
-            currentMoveSoundTime = 0;
-        }
-        else
-        {
-            currentMoveSoundTime += Time.deltaTime;
-        }
+
+        if (vel > 1 && isGround)
+            if (currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
+            {
+                var random = Random.Range(0, 9);
+
+                SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
+                currentMoveSoundTime = 0;
+            }
+            else
+            {
+                currentMoveSoundTime += Time.deltaTime;
+            }
     }
 
     private void HandCamera()

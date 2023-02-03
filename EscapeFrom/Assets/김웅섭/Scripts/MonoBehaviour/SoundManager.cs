@@ -28,16 +28,22 @@ public class SoundManager : MonoBehaviour
 
         var audiosource = obj.AddComponent<AudioSource>();
         audiosource.clip = manager.audios[(int)clip];
-        audiosource.volume = volume;
+        audiosource.volume = volume * manager.masterVolume;
         audiosource.Play();
 
         Destroy(obj, manager.audios[(int)clip].length + 1f);
     }
     
     [SerializeField] private List<AudioClip> audios = new List<AudioClip>();
+    [SerializeField] private float masterVolume;
 
     private void Awake() 
     {
         manager = this;
+    }
+
+    private void Update() 
+    {
+        masterVolume = EscUI.SettingInfo.volume / 100;
     }
 }
