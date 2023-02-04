@@ -7,21 +7,14 @@ public class InteractUI : MonoBehaviour
 {
     private static InteractUI ui;
 
-    public static void ControlUI(bool active, string explain)
+    public static void ControlUI(bool active, string show)
     {
-        ui.group.SetActive(active);
+        ui.text.gameObject.SetActive(active);
         
-        ui.explain.text = $"[E] {explain}";
+        ui.text.text = $"[E] {show}";
     }
 
-    public static GameObject GetActionBar()
-    {
-        return ui.actionBar;
-    }
-
-    [SerializeField] public GameObject group;
-    [SerializeField] public TextMeshProUGUI explain;
-    [SerializeField] public GameObject actionBar;
+    [SerializeField] private TextMeshProUGUI text;
 
     private void Awake() 
     {

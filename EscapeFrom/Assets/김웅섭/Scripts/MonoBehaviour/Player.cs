@@ -73,8 +73,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (EscUI.IsShowingEscMenu) return;
-        
         GetSettingValue();
         EventHandle();
         CameraRotation();
@@ -93,16 +91,22 @@ public class Player : MonoBehaviour
 
     private void EventHandle()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
+        if (Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
     }
 
     private void Move()
     {
-        if (isLookingCollection) return;
-
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         isGround = Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground"));
+
+        //criteria
+        if (EscUI.ShowType != EscUIShowType.disable)
+        {
+            h = 0;
+            v = 0;
+            isGround = false;
+        }
 
         var dir = new Vector3(h, 0, v);
         dir = transform.TransformDirection(dir).normalized;
@@ -119,14 +123,14 @@ public class Player : MonoBehaviour
         else
         {
             dir *= walkSpeed;
-            if (staminaRecoveryTime <= 0)
+
+            if (staminaRecoveryTime > 0) staminaRecoveryTime -= Time.deltaTime;
+            else
             {
                 stamina += increaseStamina * Time.deltaTime;
                 stamina = Mathf.Clamp(stamina, 0, 100);
             }
-            else staminaRecoveryTime -= Time.deltaTime;
         }
-
 
         if (cc.isGrounded) YVelocity = 0;
         else YVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
@@ -145,7 +149,7 @@ public class Player : MonoBehaviour
 
     private void CameraRotation()
     {
-        if (isLookingCollection) return;
+        if (EscUI.ShowType != EscUIShowType.disable) return;
 
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
@@ -159,6 +163,7 @@ public class Player : MonoBehaviour
 
     private void Interact()
     {
+
         RaycastHit hitInfo;
         Physics.Raycast(
             cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f,
@@ -174,16 +179,16 @@ public class Player : MonoBehaviour
             {
                 interactable.ShowUI();
 
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    interactable.Interact();
-                }
+                //criteria
+                if (EscUI.ShowType == EscUIShowType.disable)
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactable.Interact();
+                    }
             }
+            else InteractUI.ControlUI(false, "");
         }
-        else
-        {
-            InteractUI.ControlUI(false, "");
-        }
+        else InteractUI.ControlUI(false, "");
     }
 
     private void HeadHob()
@@ -251,6 +256,9 @@ public class Player : MonoBehaviour
 
     private void HandCamera()
     {
+        //criteria
+        if (EscUI.ShowType != EscUIShowType.disable) return;
+
         if (Input.GetMouseButton(1))
         {
             if (cc.velocity.magnitude < 1) isZoom = true;

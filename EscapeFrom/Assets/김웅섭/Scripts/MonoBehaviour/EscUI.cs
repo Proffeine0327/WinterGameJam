@@ -5,13 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum EscUIShowType
+{
+    disable,
+    menu,
+    setting,
+}
+
 public class EscUI : MonoBehaviour
 {
     private static EscUI ui;
 
     public static void ShowEscMenu()
     {
-        ui.isShowingEscMenu = true;
+        ui.showType = EscUIShowType.menu;
         ui.menuGroup.SetActive(true);
         ui.background.SetActive(true);
 
@@ -20,7 +27,7 @@ public class EscUI : MonoBehaviour
     }
 
     [Header("boolen")]
-    [SerializeField] private bool isShowingEscMenu;
+    [SerializeField] private EscUIShowType showType;
     [Header("Background")]
     [SerializeField] private GameObject background;
     [Header("Menu")]
@@ -40,7 +47,7 @@ public class EscUI : MonoBehaviour
     [Header("SaveFile")]
     [SerializeField] private SettingInfo settingInfo;
 
-    public static bool IsShowingEscMenu { get { return ui.isShowingEscMenu; } }
+    public static EscUIShowType ShowType { get { return ui.showType; } }
     public static SettingInfo SettingInfo { get { return ui.settingInfo; } }
 
     public bool isHSensivityInputFieldSelected;
@@ -53,6 +60,7 @@ public class EscUI : MonoBehaviour
 
         return2menu.onClick.AddListener(() =>
         {
+            showType = EscUIShowType.menu;
             SaveLoadManager.Save("test/test.json", settingInfo);
 
             menuGroup.SetActive(true);
@@ -61,7 +69,7 @@ public class EscUI : MonoBehaviour
 
         return2game.onClick.AddListener(() =>
         {
-            isShowingEscMenu = false;
+            showType = EscUIShowType.disable;
             menuGroup.SetActive(false);
             background.SetActive(false);
 
@@ -71,6 +79,7 @@ public class EscUI : MonoBehaviour
 
         setting.onClick.AddListener(() =>
         {
+            showType = EscUIShowType.setting;
             menuGroup.SetActive(false);
             settingGroup.SetActive(true);
         });
@@ -113,7 +122,7 @@ public class EscUI : MonoBehaviour
             isVolumeInputFieldSelected = false;
         });
 
-        if(!SaveLoadManager.Load<SettingInfo>("test/test.json", ref settingInfo))
+        if (!SaveLoadManager.Load<SettingInfo>("test/test.json", ref settingInfo))
         {
             var newSetting = new SettingInfo(Vector2.one * 1.5f, 50);
             settingInfo = newSetting;
@@ -131,8 +140,39 @@ public class EscUI : MonoBehaviour
 
     private void Update()
     {
+        EventHandle();
         ApplyValue();
         InputFieldHandle();
+    }
+
+    private void EventHandle()
+    {
+        if (showType == EscUIShowType.menu)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                this.Invoke(() =>
+                {
+                    showType = EscUIShowType.disable;
+                    menuGroup.SetActive(false);
+                    background.SetActive(false);
+
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }, 0.01f);
+            }
+        }
+        if (showType == EscUIShowType.setting)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                showType = EscUIShowType.menu;
+                SaveLoadManager.Save("test/test.json", settingInfo);
+
+                menuGroup.SetActive(true);
+                settingGroup.SetActive(false);
+            }
+        }
     }
 
     private void ApplyValue()

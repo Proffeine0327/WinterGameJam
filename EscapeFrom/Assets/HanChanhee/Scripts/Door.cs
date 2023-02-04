@@ -6,41 +6,22 @@ using TMPro;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    // Start is called before the first frame update
     public int doorState = -1;
     public bool doorEnabled = false;
     public bool isLocked = false;
-
     bool isDelay = false;
     bool isActiveActionBar = false;
-
     public Transform targetDoor;
     public Transform openDoor;
-
     string explain = "[Door State]";
-
     public string keyName = "";
-
-    private GameObject ui;
-
     Vector3 originPos;
-    
-
-
 
     private void Awake()
     {
         originPos = openDoor.position;
-        ui = InteractUI.GetActionBar();
-        
     }
 
-    void Start()
-    {
-            
-    }
-
-    // Update is called once per frame
     void Update()
     {
         switch(doorState)
@@ -86,6 +67,7 @@ public class Door : MonoBehaviour, IInteractable
             isDelay = true;
         }
     }
+
     public void Interact()
     {
         if(!isDelay && !isLocked)
@@ -97,45 +79,17 @@ public class Door : MonoBehaviour, IInteractable
             if(Key.keys.Contains(keyName))
             {
                 isLocked = false;
-                ui.GetComponent<TextMeshProUGUI>().text = "The Door is Opened";
-            } else
+                ExplainUI.ControlUI("The Door is Opened", 2);
+            } 
+            else
             {
-                ui.GetComponent<TextMeshProUGUI>().text = "The Door is Locked";
-
+                ExplainUI.ControlUI("The Door is Locked", 2);
             }
-            ui.SetActive(true);
-
-            if (!isActiveActionBar)
-            {
-                Color color = ui.GetComponent<TextMeshProUGUI>().color;
-                ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 100);
-                isActiveActionBar = true;
-                StartCoroutine(delay());
-
-            }
-
         }
-       
-    }
-
-    IEnumerator delay()
-    {
-        
-        yield return new WaitForSeconds(1f);
-        for(int i = 0; i < 20; i++)
-        {
-            Color color = ui.GetComponent<TextMeshProUGUI>().color;
-            ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 1 - i * 0.05f);
-            yield return new WaitForSeconds(0.05f);
-        }
-        yield return new WaitForSeconds(0.2f);
-        isActiveActionBar = false;
-        ui.SetActive(false);
     }
 
     public void ShowUI()
     {
-        
         InteractUI.ControlUI(true, explain);
     }
 }

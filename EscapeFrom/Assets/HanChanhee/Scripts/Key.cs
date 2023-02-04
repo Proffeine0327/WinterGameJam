@@ -4,38 +4,21 @@ using UnityEngine;
 
 public class Key : MonoBehaviour, IInteractable
 {
-    public string keyCode = "<KeyCode>";
-
-    public string explain = "Get <KeyCode>";
-
     public static List<string> keys = new List<string>();
 
-
-    public static void AddKey(string key)
-    {
-        keys.Add(key);
-    }
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        explain = $"Get {keyCode}";
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private string keyName;
 
     public void Interact()
     {
-        AddKey(keyCode);
+        ExplainUI.ControlUI($"{keyName} 열쇠를 얻었다", 2.5f);
+
+        keys.Add(keyName);
+        enabled = false;
         gameObject.SetActive(false);
     }
 
     public void ShowUI()
     {
-        InteractUI.ControlUI(true, explain);
+        InteractUI.ControlUI(true, "가져가기");
     }
 }
