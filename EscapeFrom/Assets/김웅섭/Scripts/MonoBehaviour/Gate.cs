@@ -15,10 +15,14 @@ public class Gate : MonoBehaviour, IInteractable
         }
 
         if(isLocked)
+        {
             ExplainUI.ControlUI("열쇠가 필요하다", 1.5f);
+            SoundManager.PlaySound(AudioClipName.metalDoorLocked, 0.6f, Player.player.transform.position);
+        }
         else
         {
             ExplainUI.ControlUI("문이 열렸다", 1.5f);
+            SoundManager.PlaySound(AudioClipName.metalDoorOpen, 0.6f, Player.player.transform.position);
             enabled = false;
             gameObject.SetActive(false);
         }

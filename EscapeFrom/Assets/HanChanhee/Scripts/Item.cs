@@ -24,7 +24,7 @@ public class Item : MonoBehaviour, IInteractable
 
     protected void GetActionBar()
     {
-        ui = InteractUI.GetActionBar();
+        //ui = InteractUI.GetActionBar();
     }
 
     public virtual void Interact()

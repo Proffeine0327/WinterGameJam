@@ -14,6 +14,8 @@ public enum AudioClipName
     Concrete8,
     Concrete9,
     Concrete10,
+    metalDoorLocked,
+    metalDoorOpen,
 }
 
 public class SoundManager : MonoBehaviour
