@@ -245,7 +245,7 @@ public class Player : MonoBehaviour
             {
                 var random = Random.Range(0, 9);
 
-                SoundManager.PlaySound((AudioClipName)random, 0.3f, transform.position);
+                SoundManager.PlaySound("ConcreteWalk", random, 0.3f, transform.position);
                 currentMoveSoundTime = 0;
             }
             else

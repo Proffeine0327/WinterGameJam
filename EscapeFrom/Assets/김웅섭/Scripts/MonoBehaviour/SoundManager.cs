@@ -2,49 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AudioClipName
+[System.Serializable]
+public class AudioClipGroup
 {
-    Concrete1,
-    Concrete2,
-    Concrete3,
-    Concrete4,
-    Concrete5,
-    Concrete6,
-    Concrete7,
-    Concrete8,
-    Concrete9,
-    Concrete10,
-    metalDoorLocked,
-    metalDoorOpen,
+    [SerializeField] private List<AudioClip> clips = new List<AudioClip>();
+    public List<AudioClip> Clips { get { return clips; } }
 }
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : MonoBehaviour, ISerializationCallbackReceiver
 {
     private static SoundManager manager;
 
-    public static void PlaySound(AudioClipName clip, float volume, Vector3 pos)
+    public static int GetArraySize(string key)
     {
-        var obj = new GameObject(manager.audios[(int)clip].name);
+        return manager.clipDictionary[key].Clips.Count;
+    }
+
+    public static void PlaySound(string key, int index, float volume, Vector3 pos)
+    {
+        var obj = new GameObject(manager.clipDictionary[key].Clips[index].name);
         obj.transform.position = pos;
         obj.transform.SetParent(manager.gameObject.transform);
 
         var audiosource = obj.AddComponent<AudioSource>();
-        audiosource.clip = manager.audios[(int)clip];
+        audiosource.clip = manager.clipDictionary[key].Clips[index];
         audiosource.volume = volume * manager.masterVolume;
         audiosource.Play();
 
-        Destroy(obj, manager.audios[(int)clip].length + 1f);
+        Destroy(obj, manager.clipDictionary[key].Clips[index].length + 1f);
     }
-    
-    [SerializeField] private List<AudioClip> audios = new List<AudioClip>();
-    [SerializeField] private float masterVolume;
 
-    private void Awake() 
+    [SerializeField] private List<string> keys = new List<string>();
+    [SerializeField] private List<AudioClipGroup> values = new List<AudioClipGroup>();
+    [SerializeField] private float masterVolume;
+    public Dictionary<string, AudioClipGroup> clipDictionary = new Dictionary<string, AudioClipGroup>();
+
+    public void OnBeforeSerialize()
+    {
+        keys.Clear();
+        values.Clear();
+
+        foreach (var clip in clipDictionary)
+        {
+            keys.Add(clip.Key);
+            values.Add(clip.Value);
+        }
+    }
+
+    public void OnAfterDeserialize()
+    {
+        clipDictionary = new Dictionary<string, AudioClipGroup>();
+        for (int i = 0; i < Mathf.Min(keys.Count, values.Count); i++) clipDictionary.Add(keys[i], values[i]);
+    }
+
+    private void Awake()
     {
         manager = this;
     }
 
-    private void Update() 
+    private void Update()
     {
         masterVolume = EscUI.SettingInfo.volume / 100;
     }

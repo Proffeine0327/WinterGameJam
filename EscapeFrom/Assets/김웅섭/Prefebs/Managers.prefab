@@ -59,14 +59,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60681aaabc14ebc49adb4f44dc8fd7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audios:
-  - {fileID: 8300000, guid: 10d71d1d238c11d4dbb8243d5d7224ae, type: 3}
-  - {fileID: 8300000, guid: 403258127f0f785489a06696f3c5a212, type: 3}
-  - {fileID: 8300000, guid: 30c1a549515f26e43a1b9d407d6a9ac8, type: 3}
-  - {fileID: 8300000, guid: ec64007ffd745a94fbe0c6a36421d211, type: 3}
-  - {fileID: 8300000, guid: e9f6563f8c8d940419d881ac69a42b68, type: 3}
-  - {fileID: 8300000, guid: 9a531b467ae856746bdcbb9958a231e1, type: 3}
-  - {fileID: 8300000, guid: afd46ce96ab2bed48bbbce1c7900fa11, type: 3}
-  - {fileID: 8300000, guid: 2fb835efa7511d744b95b20a69a17edd, type: 3}
-  - {fileID: 8300000, guid: 964b740970b41dc4093e983f6be7623f, type: 3}
-  - {fileID: 8300000, guid: cda370069e71ce149ad9cf138cc89a3f, type: 3}
+  keys:
+  - ConcreteWalk
+  - metalDoor
+  values:
+  - clips:
+    - {fileID: 8300000, guid: 10d71d1d238c11d4dbb8243d5d7224ae, type: 3}
+    - {fileID: 8300000, guid: 403258127f0f785489a06696f3c5a212, type: 3}
+    - {fileID: 8300000, guid: 30c1a549515f26e43a1b9d407d6a9ac8, type: 3}
+    - {fileID: 8300000, guid: ec64007ffd745a94fbe0c6a36421d211, type: 3}
+    - {fileID: 8300000, guid: e9f6563f8c8d940419d881ac69a42b68, type: 3}
+    - {fileID: 8300000, guid: 9a531b467ae856746bdcbb9958a231e1, type: 3}
+    - {fileID: 8300000, guid: afd46ce96ab2bed48bbbce1c7900fa11, type: 3}
+    - {fileID: 8300000, guid: 2fb835efa7511d744b95b20a69a17edd, type: 3}
+    - {fileID: 8300000, guid: 964b740970b41dc4093e983f6be7623f, type: 3}
+    - {fileID: 8300000, guid: cda370069e71ce149ad9cf138cc89a3f, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 94761455be646ee4e9e695538b6c7390, type: 3}
+    - {fileID: 8300000, guid: 8d9ac6fa5d1347d41ac73dc6c796f97b, type: 3}
+  masterVolume: 100
