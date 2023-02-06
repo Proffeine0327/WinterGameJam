@@ -9,7 +9,7 @@ public class Shuter : MonoBehaviour, IInteractable
     public float upHeight = 1f;
     public string keyCode = "";
 
-    string explain = "Open";
+    string explain = "열기";
 
     public bool isLocked = true;
 
@@ -21,20 +21,7 @@ public class Shuter : MonoBehaviour, IInteractable
     private GameObject ui;
     bool isActiveActionBar = false;
 
-    IEnumerator delay()
-    {
-
-        yield return new WaitForSeconds(1f);
-        for (int i = 0; i < 20; i++)
-        {
-            Color color = ui.GetComponent<TextMeshProUGUI>().color;
-            ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 1 - i * 0.05f);
-            yield return new WaitForSeconds(0.05f);
-        }
-        yield return new WaitForSeconds(0.2f);
-        isActiveActionBar = false;
-        ui.SetActive(false);
-    }
+    
 
     public void Interact()
     {
@@ -46,11 +33,7 @@ public class Shuter : MonoBehaviour, IInteractable
                 if (!isActiveActionBar)
                 {
                     isActiveActionBar = true;
-                    Color color = ui.GetComponent<TextMeshProUGUI>().color;
-                    ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 1);
-                    ui.GetComponent<TextMeshProUGUI>().text = "The Shuter is Opened";
-                    ui.gameObject.SetActive(true);
-                    StartCoroutine(delay());
+                    ExplainUI.ControlUI("셔텨를 열었다", 1.5f);
                 }
 
             }
@@ -61,11 +44,8 @@ public class Shuter : MonoBehaviour, IInteractable
                 if(!isActiveActionBar)
                 {
                     isActiveActionBar = true;
-                    Color color = ui.GetComponent<TextMeshProUGUI>().color;
-                    ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 1);
-                    ui.GetComponent<TextMeshProUGUI>().text = "The Shuter is Locked";
-                    ui.gameObject.SetActive(true);
-                    StartCoroutine(delay());
+                    ExplainUI.ControlUI("이 셔터는 잠겨 있다", 1.5f);
+                    
                 }
 
             }
@@ -82,7 +62,7 @@ public class Shuter : MonoBehaviour, IInteractable
     {
         originY = transform.position.y;
         origin = transform.position;
-        ui = InteractUI.GetActionBar();
+       
     }
 
     // Update is called once per frame
@@ -95,7 +75,7 @@ public class Shuter : MonoBehaviour, IInteractable
             if((originY + upHeight) - transform.position.y < 0.3f)
             {
                 this.gameObject.SetActive(false);
-                ui.SetActive(false);
+                //ui.SetActive(false);
             } 
         }
     }
