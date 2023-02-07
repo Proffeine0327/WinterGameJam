@@ -163,13 +163,12 @@ public class Player : MonoBehaviour
 
     private void Interact()
     {
-
         RaycastHit hitInfo;
         Physics.Raycast(
             cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f,
             cameraHolder.transform.forward, out hitInfo,
             interactRayDistance,
-            ~LayerMask.GetMask("Player")
+            ~LayerMask.GetMask("Player", "Ignore Raycast")
             );
 
         if (hitInfo.collider != null)

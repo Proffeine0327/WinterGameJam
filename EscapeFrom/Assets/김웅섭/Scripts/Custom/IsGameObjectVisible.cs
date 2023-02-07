@@ -6,6 +6,8 @@ public static class GameObjectVisible
 {
     public static bool IsVisible(this GameObject obj, Camera c)
     {
+        if(!obj.activeSelf) return false;
+
         Renderer r;
         if(!obj.TryGetComponent<Renderer>(out r)) return false;
 
@@ -17,7 +19,7 @@ public static class GameObjectVisible
             (c.transform.position - obj.transform.position).normalized,
             out hitInfo,
             Vector3.Distance(c.transform.position, obj.transform.position),
-            ~LayerMask.GetMask("Player", "HandCamera")
+            ~LayerMask.GetMask("Player", "HandCamera", "Ignore Raycast")
             );
 
         if(hitInfo.collider != null) 
