@@ -258,6 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2795268723387113215}
+  - component: {fileID: 3353672718246788624}
   m_Layer: 0
   m_Name: teaching
   m_TagString: Untagged
@@ -294,6 +295,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3353672718246788624
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3278931366641648709}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 102.41412, y: 121.93216, z: 69.75528}
+  m_Center: {x: -1.0172195, y: 64.27993, z: 0.3534851}
 --- !u!1 &3798570215602448758
 GameObject:
   m_ObjectHideFlags: 0
