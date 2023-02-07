@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Hide : MonoBehaviour, IInteractable
 {
     public Transform hideObject;
-    public string explain = "Hide";
+    public string explain = "¼û±â";
     public bool isHide = false;
    
     public Transform outPos;
@@ -50,7 +50,7 @@ public class Hide : MonoBehaviour, IInteractable
             p.isHide = true;
             p.isRunning = false;
             p.SetHeadHob(false);
-            explain = "Out";
+            explain = "³ª°¡±â";
             CharacterController cc = p.GetComponent<CharacterController>();
             cc.enabled = false;
 
@@ -80,7 +80,7 @@ public class Hide : MonoBehaviour, IInteractable
             isHide = false;
             p.isHide=false;
             p.SetHeadHob(true);
-            explain = "Hide";
+            explain = "¼û±â";
             CharacterController cc = p.GetComponent<CharacterController>();
             cc.enabled = false;
             
@@ -100,7 +100,7 @@ public class Hide : MonoBehaviour, IInteractable
 
     IEnumerator delay()
     {
-        explain = "Out";
+        explain = "³ª°¡±â";
         InteractUI.ControlUI(true, explain);
         yield return new WaitForSeconds(0.5f);
         isDelay = true;

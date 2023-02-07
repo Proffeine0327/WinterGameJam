@@ -21,12 +21,6 @@ public class Item : MonoBehaviour, IInteractable
         
     }
 
-
-    protected void GetActionBar()
-    {
-        //ui = InteractUI.GetActionBar();
-    }
-
     public virtual void Interact()
     {
         
@@ -38,17 +32,5 @@ public class Item : MonoBehaviour, IInteractable
     }
 
 
-    protected IEnumerator FadeUI()
-    {
-        yield return new WaitForSeconds(1f);
-        for (int i = 0; i < 20; i++)
-        {
-            Color color = ui.GetComponent<TextMeshProUGUI>().color;
-            ui.GetComponent<TextMeshProUGUI>().color = new Color(color.r, color.g, color.b, 1 - i * 0.05f);
-            yield return new WaitForSeconds(0.05f);
-        }
-        yield return new WaitForSeconds(0.2f);
-        isDelay = false;
-        ui.SetActive(false);
-    }
+   
 }

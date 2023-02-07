@@ -30,7 +30,7 @@ public class Door : MonoBehaviour, IInteractable
                 break;
             case 1:
                 openDoor.position = Vector3.MoveTowards(openDoor.position, new Vector3(targetDoor.position.x, openDoor.position.y, openDoor.position.z), Time.deltaTime * 2);
-                explain = "Close";
+                explain = "닫기";
                 if (Vector3.Distance(openDoor.position, new Vector3(targetDoor.position.x, openDoor.position.y, openDoor.position.z)) < 0.5f)
                 {
                     doorEnabled = true;
@@ -40,7 +40,7 @@ public class Door : MonoBehaviour, IInteractable
                 break;
             case -1:
                 openDoor.position = Vector3.MoveTowards(openDoor.position, originPos, Time.deltaTime * 2);
-                explain = "Open";
+                explain = "열기";
                 if (Vector3.Distance(openDoor.position, originPos) < 0.5f)
                 {
                     doorEnabled = false;
@@ -79,11 +79,11 @@ public class Door : MonoBehaviour, IInteractable
             if(Key.keys.Contains(keyName))
             {
                 isLocked = false;
-                ExplainUI.ControlUI("The Door is Opened", 2);
+                ExplainUI.ControlUI("문을 열었다", 2);
             } 
             else
             {
-                ExplainUI.ControlUI("The Door is Locked", 2);
+                ExplainUI.ControlUI("이 문은 잠겨있다", 2);
             }
         }
     }
