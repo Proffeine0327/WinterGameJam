@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
     {
         RaycastHit hitInfo;
         Physics.Raycast(
-            cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f,
+            cameraHolder.transform.position,
             cameraHolder.transform.forward, out hitInfo,
             interactRayDistance,
             ~LayerMask.GetMask("Player", "Ignore Raycast")
@@ -293,6 +293,6 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + groundCastOffset, groundCastRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(cameraHolder.transform.position + cameraHolder.transform.forward * 0.5f, cameraHolder.transform.position + cameraHolder.transform.forward * (0.5f + interactRayDistance));
+        Gizmos.DrawLine(cameraHolder.transform.position, cameraHolder.transform.position + cameraHolder.transform.forward * (0.5f + interactRayDistance));
     }
 }
