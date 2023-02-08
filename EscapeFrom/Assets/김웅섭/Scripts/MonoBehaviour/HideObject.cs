@@ -13,12 +13,13 @@ public class HideObject : MonoBehaviour, IInteractable
         if(isHide)
         {
             isHide = !isHide;
-            Player.player.transform.position = outPos;
+            Player.player.transform.position = transform.position + -transform.up * 1;
             Player.player.GetComponent<CharacterController>().enabled = true;
         }
         else
         {
             isHide = !isHide;
+            Player.player.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             Player.player.GetComponent<CharacterController>().enabled = false;
         }
     }
@@ -33,6 +34,6 @@ public class HideObject : MonoBehaviour, IInteractable
 
     private void Update() 
     {
-        if(isHide) Player.player.transform.position = hidePos;
+        if(isHide) Player.player.transform.position = transform.position;
     }
 }

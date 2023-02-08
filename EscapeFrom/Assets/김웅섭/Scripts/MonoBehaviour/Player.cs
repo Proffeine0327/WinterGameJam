@@ -208,6 +208,7 @@ public class Player : MonoBehaviour
     {
         float speed = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;
 
+        if (!cc.enabled) return;
         if (speed < headHobToggleSpeed) return;
         if (!cc.isGrounded) return;
 
@@ -217,8 +218,8 @@ public class Player : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.0075f : 0.004f);
-        pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.0075f : 0.004f) * 2;
+        pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.01f : 0.0075f);
+        pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.01f : 0.0075f) * 2;
         return pos * Time.deltaTime * 100;
     }
 
@@ -255,6 +256,16 @@ public class Player : MonoBehaviour
 
     private void HandCamera()
     {
+        var velocity = new Vector3(cc.velocity.x, 0, cc.velocity.z);
+
+        if (cc.enabled && cc.isGrounded && velocity.magnitude >= 1)
+        {
+            Vector3 pos = Vector3.zero;
+            pos.y -= Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.002f : 0.001f);
+            pos.x -= Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.002f : 0.001f) * 2;
+            handCamera.transform.localPosition += pos * Time.deltaTime * 100;
+        }
+
         //criteria
         if (EscUI.ShowType != EscUIShowType.disable) return;
 
