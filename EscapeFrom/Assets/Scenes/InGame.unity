@@ -9985,7 +9985,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh29864
+  m_Name: pb_Mesh29854
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22342,17 +22342,17 @@ PrefabInstance:
     - target: {fileID: 123589180967661296, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.256
+      value: 0.191
       objectReference: {fileID: 0}
     - target: {fileID: 123589180967661296, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.146
+      value: -0.114
       objectReference: {fileID: 0}
     - target: {fileID: 123589180967661296, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.203
+      value: 0.173
       objectReference: {fileID: 0}
     - target: {fileID: 123589180967661296, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
@@ -22374,6 +22374,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.59
       objectReference: {fileID: 0}
+    - target: {fileID: 123589182243715638, guid: aa19f44133b2c0a47b865c496103fd77,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5e6cc573f68747f40935355b60c34ef6, type: 2}
     - target: {fileID: 123589182390629640, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
       propertyPath: m_RootOrder
@@ -22431,6 +22436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 123589182390629641, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
+      propertyPath: photoDist
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 123589182390629641, guid: aa19f44133b2c0a47b865c496103fd77,
+        type: 3}
       propertyPath: handCamZoomPos.x
       value: 0.005
       objectReference: {fileID: 0}
@@ -22442,7 +22452,12 @@ PrefabInstance:
     - target: {fileID: 123589182390629641, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}
       propertyPath: handCamZoomPos.z
-      value: 0.073
+      value: 0.065
+      objectReference: {fileID: 0}
+    - target: {fileID: 123589182390629642, guid: aa19f44133b2c0a47b865c496103fd77,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 123589182390629684, guid: aa19f44133b2c0a47b865c496103fd77,
         type: 3}

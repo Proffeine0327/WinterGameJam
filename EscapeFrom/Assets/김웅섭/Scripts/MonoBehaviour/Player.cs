@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject handCamera;
     [SerializeField] private Camera handCameraLens;
     [SerializeField] private Vector3 handCamZoomPos;
+    [SerializeField] private float photoDist;
     [SerializeField] private bool isZoom;
     [Header("Hide")]
     public bool isHide = false;
@@ -189,7 +190,7 @@ public class Player : MonoBehaviour
         }
         else InteractUI.ControlUI(false, "");
     }
-
+    
     private void HeadHob()
     {
         if (!headHobEnabled) return;
@@ -261,8 +262,8 @@ public class Player : MonoBehaviour
         if (cc.enabled && cc.isGrounded && velocity.magnitude >= 1)
         {
             Vector3 pos = Vector3.zero;
-            pos.y -= Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.002f : 0.001f);
-            pos.x -= Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.002f : 0.001f) * 2;
+            pos.y -= Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.0017f : 0.001f);
+            pos.x -= Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.0017f : 0.001f) * 2;
             handCamera.transform.localPosition += pos * Time.deltaTime * 100;
         }
 
@@ -282,12 +283,12 @@ public class Player : MonoBehaviour
         if (isZoom)
         {
             handCamera.transform.localPosition = Vector3.Lerp(handCamera.transform.localPosition, handCamZoomPos, Time.deltaTime * 7);
-            if (Vector3.Distance(handCamera.transform.localPosition, handCamZoomPos) < 0.05f && Input.GetMouseButtonDown(0))
+            if (Vector3.Distance(handCamera.transform.localPosition, handCamZoomPos) < 0.02f && Input.GetMouseButtonDown(0))
             {
                 Debug.Log("Take!");
                 foreach (var collection in CollectionManager.manager.collections)
                 {
-                    if (collection.IsVisible(handCameraLens))
+                    if (collection.IsVisible(handCameraLens) && Vector3.Distance(handCamera.transform.position, collection.transform.position) < photoDist)
                     {
                         collection.GetComponent<IPhotoable>()?.Take();
                         Debug.Log($"Get {collection.name}");
@@ -305,5 +306,8 @@ public class Player : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(cameraHolder.transform.position, cameraHolder.transform.position + cameraHolder.transform.forward * (0.5f + interactRayDistance));
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(handCamera.transform.position, photoDist);
     }
 }

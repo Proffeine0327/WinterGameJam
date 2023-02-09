@@ -20,8 +20,4 @@ public class InteractUI : MonoBehaviour
     {
         ui = this;
     }
-
-
-    
-
 }

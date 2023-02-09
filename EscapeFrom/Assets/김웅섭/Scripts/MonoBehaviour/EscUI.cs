@@ -50,9 +50,9 @@ public class EscUI : MonoBehaviour
     public static EscUIShowType ShowType { get { return ui.showType; } }
     public static SettingInfo SettingInfo { get { return ui.settingInfo; } }
 
-    public bool isHSensivityInputFieldSelected;
-    public bool isVSensivityInputFieldSelected;
-    public bool isVolumeInputFieldSelected;
+    private bool isHSensivityInputFieldSelected;
+    private bool isVSensivityInputFieldSelected;
+    private bool isVolumeInputFieldSelected;
 
     private void Awake()
     {
