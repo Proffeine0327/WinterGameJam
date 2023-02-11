@@ -1,6 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using System.Linq;
+//using System;
+
+
+
 
 public class Floor3Ghost : MonoBehaviour
 {
@@ -10,39 +15,83 @@ public class Floor3Ghost : MonoBehaviour
     public int[] orders;
     public int curRoom = 1;
 
+    private List<int> arraySize = new List<int>();
+
+    public Door[] doors;
+
+    public static Floor3Ghost GetFloor3Ghost()
+    {
+        
+        return floor3Ghost;
+    }
+
+    static Floor3Ghost floor3Ghost;
+    
+
+    public void OpenDoor(Door door)
+    {
+        for(int i = 0; i < doors.Length; i++)
+        {
+            if(door == doors[i])
+            {
+                if(orders[i] == curRoom)
+                {
+
+                } else if(orders[i] < curRoom)
+                {
+
+                } else if(orders[i] > curRoom)
+                {
+
+                }
+            }
+        }
+    }
+
     void Awake()
     {
-        orders = new int[rooms.Count];
-        for (int i = 0; i < rooms.Count; i++)
-        {
-            orders[i] = Random.Range(1, rooms.Count + 1);
-        }
+        floor3Ghost = this;
+
+        //System.Random random = new System.Random();
+        //for(int i = 0; i < rooms.Count; i++)
+        //{
+        //    arraySize.Add(i + 1);
+        //}
+        //orders = arraySize.ToArray();
+        //orders = orders.OrderBy(x => random.Next()).ToArray();
+        
+        //orders = new int[rooms.Count];
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckRooms();
+       // CheckRooms();
     }
 
 
     void CheckRooms()
     {
        
-        if(rooms.Count > curRoom)
+        if(rooms.Count >= curRoom)
         {
 
             for(int i = 0; i < rooms.Count; i++)
             {
-                Collider[] colliders = Physics.OverlapBox(rooms[i].position, sizes[i]);
+                Collider[] colliders = Physics.OverlapBox(rooms[i].position, sizes[i] /2);
                 foreach(Collider collider in colliders)
                 {
                     if(Player.player.transform == collider.gameObject.transform)
                     {
+                        
                         if(orders[i] != curRoom)
                         {
+                            if(curRoom < orders[i])
+                            {
 
-                            Debug.Log("Death");
+                                Debug.Log("Death");
+                            }
                             break;
                         }
                         else if(orders[i] == curRoom)
