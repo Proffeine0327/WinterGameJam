@@ -17,6 +17,7 @@ public class TextUI : MonoBehaviour
     void Awake()
     {
         ui = this;
+        
     }
 
     // Update is called once per frame
