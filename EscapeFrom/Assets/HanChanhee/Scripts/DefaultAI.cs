@@ -52,15 +52,14 @@ public class DefaultAI : MonoBehaviour
         {
             if(collider.gameObject.tag == "Door")
             {
-                Door door = collider.gameObject.GetComponent<Door>();
-                if(!door.doorEnabled && door.doorState == -1 )
+                SlideDoor door = collider.gameObject.GetComponent<SlideDoor>();
+                if(!door.isOpen)
                 {
-                    if(!door.isLocked)
-                    {
-                        curtime = 0;
-                        ChangeState(State.Delay);
+                    
+                    curtime = 0;
+                    ChangeState(State.Delay);
 
-                    }
+                    
                     door.Open();
                 } 
 

@@ -6,11 +6,27 @@ public class SlideDoor : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform group;
     [SerializeField] private Vector3 openPos;
-    [SerializeField] private bool isOpen;
+    public bool isOpen;
 
     public void Interact()
     {
         isOpen = !isOpen;
+        CheckOpen();
+    }
+
+    public void Open()
+    {
+        isOpen = !isOpen;
+    }
+
+    public void CheckOpen()
+    {
+        Floor3Ghost floor3Ghost = Floor3Ghost.GetFloor3Ghost();
+        if (floor3Ghost != null)
+        {
+            floor3Ghost.OpenDoor(this);
+
+        }
     }
 
     public void ShowUI()

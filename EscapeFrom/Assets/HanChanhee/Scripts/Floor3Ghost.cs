@@ -17,7 +17,7 @@ public class Floor3Ghost : MonoBehaviour
 
     private List<int> arraySize = new List<int>();
 
-    public Door[] doors;
+    public SlideDoor[] doors;
 
     public static Floor3Ghost GetFloor3Ghost()
     {
@@ -28,7 +28,7 @@ public class Floor3Ghost : MonoBehaviour
     static Floor3Ghost floor3Ghost;
     
 
-    public void OpenDoor(Door door)
+    public void OpenDoor(SlideDoor door)
     {
         for(int i = 0; i < doors.Length; i++)
         {
@@ -36,13 +36,14 @@ public class Floor3Ghost : MonoBehaviour
             {
                 if(orders[i] == curRoom)
                 {
-
+                    Debug.Log("Pass");
+                    curRoom++;
                 } else if(orders[i] < curRoom)
                 {
-
+                    Debug.Log("Nothing");
                 } else if(orders[i] > curRoom)
                 {
-
+                    Debug.Log("Death");
                 }
             }
         }
