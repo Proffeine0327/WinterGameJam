@@ -9,6 +9,6 @@ public class StaminaUI : MonoBehaviour
 
     void Update()
     {
-        staminaBar.fillAmount = Mathf.Round(Player.player.Stamina) / 100;
+        staminaBar.fillAmount = Mathf.Round(Player.Stamina) / 100;
     }
 }

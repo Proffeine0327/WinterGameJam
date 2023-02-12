@@ -39,8 +39,11 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isZoom;
     [Header("Hide")]
     public bool isHide = false;
+    [Header("Inventory")]
+    public List<Item> items;
 
-    public float Stamina { get { return stamina; } }
+    public static List<Item> Items { get { return player.items; } }
+    public static float Stamina { get { return player.stamina; } }
 
     private CharacterController cc;
     private float currnetHeadHobAmplitude; //walk : 0.005 run : 0.0075
@@ -92,7 +95,12 @@ public class Player : MonoBehaviour
 
     private void EventHandle()
     {
+        //criteria
+        if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
+
         if (Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
+        if (Input.GetKeyDown(KeyCode.Q)) InventoryUI.ShowUI();
     }
 
     private void Move()
@@ -102,7 +110,10 @@ public class Player : MonoBehaviour
         isGround = Physics.CheckSphere(transform.position + groundCastOffset, groundCastRadius, LayerMask.GetMask("Ground"));
 
         //criteria
-        if (EscUI.ShowType != EscUIShowType.disable)
+        if (
+            EscUI.ShowType != EscUIShowType.disable ||
+            InventoryUI.ShowType != InventoryUIShowType.disable
+        )
         {
             h = 0;
             v = 0;
@@ -150,7 +161,9 @@ public class Player : MonoBehaviour
 
     private void CameraRotation()
     {
+        //criteria
         if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
 
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
@@ -180,17 +193,22 @@ public class Player : MonoBehaviour
                 interactable.ShowUI();
 
                 //criteria
-                if (EscUI.ShowType == EscUIShowType.disable)
+                if (
+                    EscUI.ShowType == EscUIShowType.disable &&
+                    InventoryUI.ShowType == InventoryUIShowType.disable
+                )
+                {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         interactable.Interact();
                     }
+                }
             }
             else InteractUI.ControlUI(false, "");
         }
         else InteractUI.ControlUI(false, "");
     }
-    
+
     private void HeadHob()
     {
         if (!headHobEnabled) return;
@@ -269,6 +287,7 @@ public class Player : MonoBehaviour
 
         //criteria
         if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
 
         if (Input.GetMouseButton(1))
         {

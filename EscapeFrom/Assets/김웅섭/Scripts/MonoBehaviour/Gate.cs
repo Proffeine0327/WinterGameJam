@@ -9,9 +9,20 @@ public class Gate : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        foreach(var key in Key.keys)
+        foreach(var item in Player.Items)
         {
-            if(key == keyName) isLocked = false;
+            PhotoableKey key;
+            if(item.TryGetComponent<PhotoableKey>(out key))
+            {
+                if(key.KeyName == keyName)
+                {
+                    isLocked = false;
+                    Player.Items.Remove(item);
+                    InventoryUI.UpdateSlots();
+
+                    break;
+                }
+            }
         }
 
         if(isLocked)
