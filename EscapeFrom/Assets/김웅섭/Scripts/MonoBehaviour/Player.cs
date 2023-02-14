@@ -63,9 +63,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         player = this;
 
         cc = GetComponent<CharacterController>();
@@ -89,17 +86,19 @@ public class Player : MonoBehaviour
 
     private void GetSettingValue()
     {
-        mouseSensivity.x = EscUI.SettingInfo.mouseSensivity.x;
-        mouseSensivity.y = EscUI.SettingInfo.mouseSensivity.y;
+        mouseSensivity.x = SettingUI.SettingInfo.mouseSensivity.x;
+        mouseSensivity.y = SettingUI.SettingInfo.mouseSensivity.y;
     }
 
     private void EventHandle()
     {
         //criteria
-        if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (!StartMenuUI.IsStart) return;
+        if (EscUI.IsShowing) return;
+        if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
 
-        if (Input.GetKeyDown(KeyCode.Escape)) EscUI.ShowEscMenu();
+        if (Input.GetKeyDown(KeyCode.Escape)) EscUI.ActiveUI(true);
         if (Input.GetKeyDown(KeyCode.Q)) InventoryUI.ShowUI();
     }
 
@@ -111,8 +110,10 @@ public class Player : MonoBehaviour
 
         //criteria
         if (
-            EscUI.ShowType != EscUIShowType.disable ||
-            InventoryUI.ShowType != InventoryUIShowType.disable
+            EscUI.IsShowing ||
+            SettingUI.IsShowing ||
+            InventoryUI.ShowType != InventoryUIShowType.disable ||
+            !StartMenuUI.IsStart
         )
         {
             h = 0;
@@ -162,7 +163,9 @@ public class Player : MonoBehaviour
     private void CameraRotation()
     {
         //criteria
-        if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (!StartMenuUI.IsStart) return;
+        if (EscUI.IsShowing) return;
+        if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
 
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
@@ -194,8 +197,10 @@ public class Player : MonoBehaviour
 
                 //criteria
                 if (
-                    EscUI.ShowType == EscUIShowType.disable &&
-                    InventoryUI.ShowType == InventoryUIShowType.disable
+                    !EscUI.IsShowing &&
+                    !SettingUI.IsShowing &&
+                    InventoryUI.ShowType == InventoryUIShowType.disable &&
+                    StartMenuUI.IsStart
                 )
                 {
                     if (Input.GetKeyDown(KeyCode.E))
@@ -286,7 +291,9 @@ public class Player : MonoBehaviour
         }
 
         //criteria
-        if (EscUI.ShowType != EscUIShowType.disable) return;
+        if (!StartMenuUI.IsStart) return;
+        if (EscUI.IsShowing) return;
+        if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
 
         if (Input.GetMouseButton(1))

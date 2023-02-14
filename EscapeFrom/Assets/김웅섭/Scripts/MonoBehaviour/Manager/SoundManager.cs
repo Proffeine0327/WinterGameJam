@@ -62,6 +62,6 @@ public class SoundManager : MonoBehaviour, ISerializationCallbackReceiver
 
     private void Update()
     {
-        masterVolume = EscUI.SettingInfo.volume / 100;
+        masterVolume = SettingUI.SettingInfo.volume / 100;
     }
 }

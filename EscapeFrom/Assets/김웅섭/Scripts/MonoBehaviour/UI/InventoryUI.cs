@@ -129,7 +129,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (showType == InventoryUIShowType.menu)
         {
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 this.Invoke(() =>
                 {
@@ -144,7 +144,7 @@ public class InventoryUI : MonoBehaviour
         }
         if (showType == InventoryUIShowType.detail)
         {
-            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 Destroy(currentDetail);
                 currentDetail = null;
