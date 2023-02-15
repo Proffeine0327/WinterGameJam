@@ -113,7 +113,8 @@ public class Player : MonoBehaviour
             EscUI.IsShowing ||
             SettingUI.IsShowing ||
             InventoryUI.ShowType != InventoryUIShowType.disable ||
-            !StartMenuUI.IsStart
+            !StartMenuUI.IsStart ||
+            !cc.enabled
         )
         {
             h = 0;
@@ -157,7 +158,7 @@ public class Player : MonoBehaviour
         }
         dir.y = YVelocity;
 
-        cc.Move(dir * Time.deltaTime);
+        if(cc.enabled) cc.Move(dir * Time.deltaTime);
     }
 
     private void CameraRotation()
@@ -242,8 +243,8 @@ public class Player : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.01f : 0.0075f);
-        pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.01f : 0.0075f) * 2;
+        pos.y += Mathf.Sin(Time.time * (isRunning ? 18 : 12)) * (isRunning ? 0.0075f : 0.005f);
+        pos.x += Mathf.Cos(Time.time * (isRunning ? 18 : 12) / 2) * (isRunning ? 0.0075f : 0.005f) * 2;
         return pos * Time.deltaTime * 100;
     }
 
@@ -264,7 +265,7 @@ public class Player : MonoBehaviour
     {
         var vel = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;
 
-        if (vel > 1 && isGround)
+        if (cc.enabled && vel > 1 && isGround)
             if (currentMoveSoundTime > (isRunning ? runSoundTime : walkSoundTime))
             {
                 var random = Random.Range(0, 9);

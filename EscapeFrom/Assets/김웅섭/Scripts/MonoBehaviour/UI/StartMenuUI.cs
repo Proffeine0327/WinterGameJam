@@ -62,6 +62,8 @@ public class StartMenuUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        RenderSettings.fog = true;
+        RenderSettings.fogDensity = 0.27f;
 
         var startTmp = start.GetComponentInChildren<TextMeshProUGUI>();
         var settingTmp = setting.GetComponentInChildren<TextMeshProUGUI>();
