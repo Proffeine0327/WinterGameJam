@@ -66,13 +66,10 @@ public class Floor4Ghost : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         yield return new WaitForSeconds(1f);
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 15; i++)
         {
             random = Random.Range(0, renderers.Count);
-            if(renderers[random] == null)
-            {
-                break;
-            }
+            
             renderers[random].material = changeMonitor;
             renderers.RemoveAt(random);
             yield return new WaitForSeconds(0.5f);
@@ -82,7 +79,7 @@ public class Floor4Ghost : MonoBehaviour
         for(int i = 0; i < 4; i++)
         {
             ghosts[i] = Instantiate(ghost, moniters[Random.Range(0, moniters.Length)].position, Quaternion.identity);
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(30f);
         }
         yield return new WaitForSeconds(180f);
         foreach(GameObject g in ghosts)
