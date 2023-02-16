@@ -23,6 +23,9 @@ public class DefaultAI : MonoBehaviour
     public State state = State.None;
     State prevState;
 
+    public Sprite deathImage;
+    public string deathSound;
+
     public enum State
     {
         None, Catch, Move, Delay
@@ -58,8 +61,6 @@ public class DefaultAI : MonoBehaviour
                     
                     curtime = 0;
                     ChangeState(State.Delay);
-
-                    
                     door.Open();
                 } 
 
@@ -127,7 +128,10 @@ public class DefaultAI : MonoBehaviour
             case State.Catch:
                 nav.speed = followSpeed;
                 nav.SetDestination(player.transform.position);
-                
+                if(Vector3.Distance(transform.position, player.transform.position) < 0.5f || !p.isHide)
+                {
+                    DeathUI.Death(deathImage, deathSound);
+                }
                 if (Vector3.Distance(transform.position, player.transform.position) >= followDistance || p.isHide)
                 {
                     isCastPlayer = false;
