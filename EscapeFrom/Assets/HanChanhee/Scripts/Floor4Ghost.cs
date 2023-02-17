@@ -27,7 +27,7 @@ public class Floor4Ghost : MonoBehaviour
 
     public float curTime = 0;
     float noiseTime = 0;
-    float beatTime = 12f;
+    float beatTime = 2f;
     public void MonitorOn(Transform monitor)
     {
         MeshRenderer meshRenderer = monitor.GetComponent<MeshRenderer>();
@@ -111,7 +111,7 @@ public class Floor4Ghost : MonoBehaviour
             curTime += Time.deltaTime;
             noiseTime += Time.deltaTime;
             beatTime += Time.deltaTime;
-            if(beatTime >= 12.25f)
+            if(beatTime >= 2.25f)
             {
                 beatTime = 0;
                 SoundManager.PlaySound("HeartBeats", 0, 0.6f, Player.player.transform.position);
