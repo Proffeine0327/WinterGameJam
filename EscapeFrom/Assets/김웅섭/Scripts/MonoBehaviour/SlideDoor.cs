@@ -11,6 +11,7 @@ public class SlideDoor : MonoBehaviour, IInteractable
     public void Interact()
     {
         isOpen = !isOpen;
+        SoundManager.PlaySound("woodDoor", 0, 1f, Player.player.transform.position);
         CheckOpen();
     }
 
