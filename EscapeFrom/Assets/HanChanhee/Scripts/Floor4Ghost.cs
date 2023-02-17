@@ -13,6 +13,10 @@ public class Floor4Ghost : MonoBehaviour
 
     public Material interactMointor;
 
+    public GameObject shuter;
+
+
+
     public bool isEnable = false;
     
 
@@ -21,7 +25,8 @@ public class Floor4Ghost : MonoBehaviour
         MeshRenderer meshRenderer = monitor.GetComponent<MeshRenderer>();
         meshRenderer.material = changeMonitor;
         StartCoroutine(ComputerOn());
-        
+        shuter.SetActive(true);
+        SoundManager.PlaySound("metalDoor", 0, 1, shuter.transform.position);
     }
 
 
@@ -88,7 +93,8 @@ public class Floor4Ghost : MonoBehaviour
         {
             g.SetActive(false);
         }
-
+        shuter.SetActive(false);
+        SoundManager.PlaySound("metalDoor", 1, 1, shuter.transform.position);
     }
 
     // Update is called once per frame
