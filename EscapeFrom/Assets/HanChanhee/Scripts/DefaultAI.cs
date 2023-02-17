@@ -22,7 +22,7 @@ public class DefaultAI : MonoBehaviour
     public float doorDelayTime = 1f;
 
     public State state = State.None;
-    State prevState;
+    public State prevState;
 
     public static DefaultAI ai;
 
@@ -61,7 +61,7 @@ public class DefaultAI : MonoBehaviour
     void CheckDoor()
     {
         RaycastHit hit;
-        Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 1.5f);
+        Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 1f);
         foreach(Collider collider in colliders)
         {
             if(collider.gameObject.tag == "Door")
@@ -85,7 +85,7 @@ public class DefaultAI : MonoBehaviour
     
     
 
-    void ChangeState(State s)
+    public void ChangeState(State s)
     {
         prevState = state;
         state = s;
@@ -146,7 +146,7 @@ public class DefaultAI : MonoBehaviour
                 
                 nav.speed = followSpeed;
                 nav.SetDestination(player.transform.position);
-                if(Vector3.Distance(transform.position, player.transform.position) < 0.4f && !p.isHide)
+                if(Vector3.Distance(transform.position, player.transform.position) < 0.6f && !p.isHide)
                 {
                     DeathUI.Death(deathImage);
                     gameObject.SetActive(false);

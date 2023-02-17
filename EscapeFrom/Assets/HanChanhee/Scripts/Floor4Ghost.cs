@@ -25,6 +25,8 @@ public class Floor4Ghost : MonoBehaviour
     
     public List<MeshRenderer> renderers = new List<MeshRenderer>();
 
+    public GameObject key;
+
     public float curTime = 0;
     float noiseTime = 0;
     float beatTime = 2f;
@@ -81,7 +83,7 @@ public class Floor4Ghost : MonoBehaviour
     {
        
         yield return new WaitForSeconds(90f);
-        
+        key.SetActive(true);
         
         shuter.SetActive(false);
         isEnable = false;
@@ -90,8 +92,16 @@ public class Floor4Ghost : MonoBehaviour
         {
             MeshRenderer meshRenderer = moniters[i].transform.GetChild(3).GetComponent<MeshRenderer>();
             meshRenderer.material = interactMointor;
+            if(moniters[i].transform.childCount > 4)
+            {
+                moniters[i].transform.GetChild(4).gameObject.SetActive(false);
+            }
             InteractMonitor interactMonitor = meshRenderer.transform.gameObject.GetComponent<InteractMonitor>();
-            interactMonitor.enabled = false;
+            if(interactMonitor != null)
+            {
+
+                interactMonitor.isEnable = false;
+            }
         }
     }
 

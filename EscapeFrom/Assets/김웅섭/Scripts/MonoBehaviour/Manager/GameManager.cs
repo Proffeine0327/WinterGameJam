@@ -49,10 +49,12 @@ public class GameManager : MonoBehaviour
         {
             DefaultAI.ai.Spawn();
             isFloor2GhostSpawn = true;
-        } else if(floor1Gate.enabled)
+        } else if(floor1Gate.gameObject.activeSelf)
         {
             DefaultAI.ai.curtime = 0;
-            DefaultAI.ai.state = DefaultAI.State.Delay;
+            DefaultAI.ai.ChangeState(DefaultAI.State.Delay);
+            DefaultAI.ai.prevState = DefaultAI.State.Move;
+
         }
 
     }
