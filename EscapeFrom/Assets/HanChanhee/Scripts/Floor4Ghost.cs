@@ -32,6 +32,8 @@ public class Floor4Ghost : MonoBehaviour
         MeshRenderer meshRenderer = moniters[Random.Range(0, moniters.Length)].GetChild(3).GetComponent<MeshRenderer>();
         meshRenderer.material = interactMointor;
         InteractMonitor interM = meshRenderer.transform.gameObject.AddComponent<InteractMonitor>();
+        BoxCollider collider = meshRenderer.transform.gameObject.AddComponent<BoxCollider>();
+        collider.size = new Vector3(0.1f, collider.size.y, collider.size.z);
         interM.floor4Ghost = this;
 
 

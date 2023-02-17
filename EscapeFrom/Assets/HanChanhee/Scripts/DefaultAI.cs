@@ -24,7 +24,7 @@ public class DefaultAI : MonoBehaviour
     State prevState;
 
     public Sprite deathImage;
-    public string deathSound;
+    
 
     public enum State
     {
@@ -130,7 +130,7 @@ public class DefaultAI : MonoBehaviour
                 nav.SetDestination(player.transform.position);
                 if(Vector3.Distance(transform.position, player.transform.position) < 0.5f || !p.isHide)
                 {
-                    DeathUI.Death(deathImage, deathSound);
+                    DeathUI.Death(deathImage);
                 }
                 if (Vector3.Distance(transform.position, player.transform.position) >= followDistance || p.isHide)
                 {
