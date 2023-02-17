@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public class Floor1Ghost : MonoBehaviour
 {
+    [SerializeField] private Sprite deathImg;
     [SerializeField] private float doorCastLength;
+    [SerializeField] private bool isAppeared;
 
     public static Floor1Ghost ghost;
 
@@ -13,6 +15,7 @@ public class Floor1Ghost : MonoBehaviour
     {
         ghost.agent.enabled = active;
         ghost.sr.enabled = active;
+        ghost.isAppeared = active;
     }
 
     private SpriteRenderer sr;
@@ -32,6 +35,14 @@ public class Floor1Ghost : MonoBehaviour
 
     void Update()
     {
+        if(isAppeared)
+        {
+            if(Vector3.Distance(transform.position, Player.player.transform.position) < 1f)
+            {
+                DeathUI.Death(deathImg);
+            }
+        }
+
         if (agent.enabled)
         {
             agent.SetDestination(Player.player.transform.position);
@@ -51,7 +62,6 @@ public class Floor1Ghost : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void OnDrawGizmos()

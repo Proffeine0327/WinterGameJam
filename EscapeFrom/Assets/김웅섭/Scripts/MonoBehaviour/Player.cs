@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public static Player player;
 
+    [Header("Death")]
+    public bool isDeath;
     [Header("Move")]
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
@@ -98,6 +100,7 @@ public class Player : MonoBehaviour
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
+        if (isDeath) return;
 
         if (Input.GetKeyDown(KeyCode.Escape)) EscUI.ActiveUI(true);
         if (Input.GetKeyDown(KeyCode.Q)) InventoryUI.ShowUI();
@@ -115,7 +118,8 @@ public class Player : MonoBehaviour
             SettingUI.IsShowing ||
             InventoryUI.ShowType != InventoryUIShowType.disable ||
             !StartMenuUI.IsStart ||
-            !cc.enabled
+            !cc.enabled ||
+            isDeath
         )
         {
             h = 0;
@@ -169,6 +173,7 @@ public class Player : MonoBehaviour
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
+        if (isDeath) return;
 
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
@@ -202,7 +207,8 @@ public class Player : MonoBehaviour
                     !EscUI.IsShowing &&
                     !SettingUI.IsShowing &&
                     InventoryUI.ShowType == InventoryUIShowType.disable &&
-                    StartMenuUI.IsStart
+                    StartMenuUI.IsStart &&
+                    !isDeath
                 )
                 {
                     if (Input.GetKeyDown(KeyCode.E))
@@ -304,6 +310,7 @@ public class Player : MonoBehaviour
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;
         if (InventoryUI.ShowType != InventoryUIShowType.disable) return;
+        if (isDeath) return;
 
         if (Input.GetMouseButton(1))
         {
