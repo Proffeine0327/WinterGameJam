@@ -14,7 +14,7 @@ public class DefaultAI : MonoBehaviour
     public bool isCastPlayer = false; //�÷��̾� ���� ����
     
     int curPoint = 0;
-    float beatTime = 0;
+    float beatTime = 2f;
 
     public float normalSpeed = 1.5f;
     public float followSpeed = 2;
@@ -137,7 +137,7 @@ public class DefaultAI : MonoBehaviour
                 break;
 
             case State.Catch:
-                if (beatTime >= 12.25f)
+                if (beatTime >= 2.25f)
                 {
                     SoundManager.PlaySound("HeartBeats", 0, 0.6f, Player.player.transform.position);
                     beatTime = 0;
