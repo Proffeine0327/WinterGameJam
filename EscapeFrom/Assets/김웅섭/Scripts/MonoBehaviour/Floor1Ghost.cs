@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Floor1Ghost : MonoBehaviour
 {
     [SerializeField] private Sprite deathImg;
+    [SerializeField] private GameObject ghostSprite;
     [SerializeField] private float doorCastLength;
     [SerializeField] private bool isAppeared;
 
@@ -14,11 +15,10 @@ public class Floor1Ghost : MonoBehaviour
     public static void ActiveBoss(bool active)
     {
         ghost.agent.enabled = active;
-        ghost.sr.enabled = active;
+        ghost.ghostSprite.SetActive(active);
         ghost.isAppeared = active;
     }
 
-    private SpriteRenderer sr;
     private NavMeshAgent agent;
 
     public static NavMeshAgent Agent { get { return ghost.agent; } }
@@ -27,7 +27,6 @@ public class Floor1Ghost : MonoBehaviour
     {
         ghost = this;
 
-        sr = GetComponent<SpriteRenderer>();
         agent = GetComponent<NavMeshAgent>();
 
         ActiveBoss(false);
