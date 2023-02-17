@@ -52,7 +52,7 @@ public class Floor3Ghost : MonoBehaviour
                 {
                     Debug.Log("Death");
                     DeathUI.Death(deathImage);
-                    gameObject.SetActive(false);
+                    this.enabled = false;
 
                 }
             }

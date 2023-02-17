@@ -14,6 +14,7 @@ public class DefaultAI : MonoBehaviour
     public bool isCastPlayer = false; //�÷��̾� ���� ����
     
     int curPoint = 0;
+    float beatTime = 0;
 
     public float normalSpeed = 1.5f;
     public float followSpeed = 2;
@@ -23,9 +24,16 @@ public class DefaultAI : MonoBehaviour
     public State state = State.None;
     State prevState;
 
-    public Sprite deathImage;
+    public static DefaultAI ai;
+
     
 
+    public Sprite deathImage;
+    
+    public void Spawn()
+    {
+        transform.position = MovePoint[Random.Range(0, MovePoint.Count)].position;
+    }
     public enum State
     {
         None, Catch, Move, Delay
@@ -37,6 +45,7 @@ public class DefaultAI : MonoBehaviour
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
+        ai = this;
     }
 
     // Update is called once per frame
@@ -44,6 +53,8 @@ public class DefaultAI : MonoBehaviour
     {
         Move();
         CheckDoor();
+        beatTime += Time.deltaTime;
+        
         
     }
 
@@ -126,11 +137,19 @@ public class DefaultAI : MonoBehaviour
                 break;
 
             case State.Catch:
+                if (beatTime >= 12.25f)
+                {
+                    SoundManager.PlaySound("HeartBeats", 0, 0.6f, Player.player.transform.position);
+                    beatTime = 0;
+                }
+
+                
                 nav.speed = followSpeed;
                 nav.SetDestination(player.transform.position);
-                if(Vector3.Distance(transform.position, player.transform.position) < 0.5f || !p.isHide)
+                if(Vector3.Distance(transform.position, player.transform.position) < 0.4f && !p.isHide)
                 {
                     DeathUI.Death(deathImage);
+                    gameObject.SetActive(false);
                 }
                 if (Vector3.Distance(transform.position, player.transform.position) >= followDistance || p.isHide)
                 {
