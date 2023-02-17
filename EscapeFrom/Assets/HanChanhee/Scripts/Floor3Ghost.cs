@@ -19,6 +19,9 @@ public class Floor3Ghost : MonoBehaviour
 
     public SlideDoor[] doors;
 
+    public Sprite deathImage;
+    public string deathSound;
+
     public static Floor3Ghost GetFloor3Ghost()
     {
         
@@ -44,6 +47,8 @@ public class Floor3Ghost : MonoBehaviour
                 } else if(orders[i] > curRoom)
                 {
                     Debug.Log("Death");
+                    DeathUI.Death(deathImage, deathSound);
+
                 }
             }
         }
