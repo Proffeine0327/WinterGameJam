@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
     private bool is_1fboss_displayed = false;
     private bool is_player_has_trigger_item = false;
 
+    public Gate floor1Gate;
+
+    bool isFloor2GhostSpawn = false;
+
+
+
     private void Awake() 
     {
         manager = this;
@@ -63,7 +69,19 @@ public class GameManager : MonoBehaviour
                 Floor1Ghost.ActiveBoss(true);
             }       
         }
+        if(!floor1Gate.enabled && !isFloor2GhostSpawn)
+        {
+            DefaultAI.ai.Spawn();
+            isFloor2GhostSpawn = true;
+        } else if(floor1Gate.enabled)
+        {
+            DefaultAI.ai.curtime = 0;
+            DefaultAI.ai.state = DefaultAI.State.Delay;
+        }
+
     }
+
+
 
     private void OnDrawGizmos() 
     {
