@@ -51,13 +51,14 @@ public class InventoryUI : MonoBehaviour
             var item = Player.Items[i];
             ui.slots[i].Init(item.ItemSprite, item.ItemName, item.ItemExplaine, () =>
             {
-                if (item.DetailShow != null)
-                {
-                    ui.currentDetail = Instantiate(item.DetailShow, ui.background.transform);
-                    ui.menuGroup.SetActive(false);
-                    ui.showType = InventoryUIShowType.detail;
-                    InventoryUI.ControlExplaineUI(false, null);
-                }
+                if (ui.showType != InventoryUIShowType.detail)
+                    if (item.DetailShow != null)
+                    {
+                        ui.currentDetail = Instantiate(item.DetailShow, ui.background.transform);
+                        ui.menuGroup.SetActive(false);
+                        ui.showType = InventoryUIShowType.detail;
+                        InventoryUI.ControlExplaineUI(false, null);
+                    }
             });
         }
 
@@ -68,13 +69,14 @@ public class InventoryUI : MonoBehaviour
 
             slot.GetComponent<SlotUI>().Init(item.ItemSprite, item.ItemName, item.ItemExplaine, () =>
             {
-                if (item.DetailShow != null)
-                {
-                    ui.currentDetail = Instantiate(item.DetailShow, ui.background.transform);
-                    ui.menuGroup.SetActive(false);
-                    ui.showType = InventoryUIShowType.detail;
-                    InventoryUI.ControlExplaineUI(false, null);
-                }
+                if (ui.showType != InventoryUIShowType.detail)
+                    if (item.DetailShow != null)
+                    {
+                        ui.currentDetail = Instantiate(item.DetailShow, ui.background.transform);
+                        ui.menuGroup.SetActive(false);
+                        ui.showType = InventoryUIShowType.detail;
+                        InventoryUI.ControlExplaineUI(false, null);
+                    }
             });
 
             ui.slots.Add(slot.GetComponent<SlotUI>());

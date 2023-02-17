@@ -25,7 +25,6 @@ public class SlideDoor : MonoBehaviour, IInteractable
         if (floor3Ghost != null)
         {
             floor3Ghost.OpenDoor(this);
-
         }
     }
 

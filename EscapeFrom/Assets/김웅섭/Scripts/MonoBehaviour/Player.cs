@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Camera handCameraLens;
     [SerializeField] private Vector3 handCamZoomPos;
     [SerializeField] private float photoDist;
+    public bool hasHandCam;
     [SerializeField] private bool isZoom;
     [Header("Hide")]
     public bool isHide = false;
@@ -281,6 +282,13 @@ public class Player : MonoBehaviour
 
     private void HandCamera()
     {
+        if(!hasHandCam)
+        {
+            handCamera.SetActive(false);
+            return;
+        }
+        handCamera.SetActive(true);
+
         var velocity = new Vector3(cc.velocity.x, 0, cc.velocity.z);
 
         if (cc.enabled && cc.isGrounded && velocity.magnitude >= 1)

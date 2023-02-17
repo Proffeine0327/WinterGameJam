@@ -31,7 +31,7 @@ public class DefaultAI : MonoBehaviour
     public float catchDistance;
     public float followDistance;
     
-    void Start()
+    void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
     }
@@ -41,12 +41,10 @@ public class DefaultAI : MonoBehaviour
     {
         Move();
         CheckDoor();
-        
     }
 
     void CheckDoor()
     {
-        RaycastHit hit;
         Collider[] colliders = Physics.OverlapBox(transform.position, Vector3.one * 1.5f);
         foreach(Collider collider in colliders)
         {
@@ -55,23 +53,14 @@ public class DefaultAI : MonoBehaviour
                 SlideDoor door = collider.gameObject.GetComponent<SlideDoor>();
                 if(!door.isOpen)
                 {
-                    
                     curtime = 0;
                     ChangeState(State.Delay);
-
                     
                     door.Open();
                 } 
-
             }
         }
-        
     }
-
-    
-
-    
-    
 
     void ChangeState(State s)
     {
@@ -153,9 +142,7 @@ public class DefaultAI : MonoBehaviour
                     ChangeState(prevState);
                 }
                 break;
-
         }
-        
     }
 
     private void OnDrawGizmos()
@@ -167,8 +154,4 @@ public class DefaultAI : MonoBehaviour
         
         Gizmos.DrawWireCube(transform.position, Vector3.one * 1.5f);
     }
-
-
-
-
 }
