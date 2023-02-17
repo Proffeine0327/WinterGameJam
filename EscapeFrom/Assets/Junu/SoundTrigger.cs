@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SoundTrigger : MonoBehaviour
 {
+    [SerializeField] private bool once;
+
     AudioSource audioSource;
 
     void Start()
@@ -15,8 +17,10 @@ public class SoundTrigger : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            Debug.Log("�浹");
+            Debug.Log("�浹");
             audioSource.Play();
+
+            if(once) gameObject.GetComponent<Collider>().enabled = false;
         }
     }
 }

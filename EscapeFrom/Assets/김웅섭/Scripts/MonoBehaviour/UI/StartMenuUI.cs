@@ -63,7 +63,7 @@ public class StartMenuUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         RenderSettings.fog = true;
-        RenderSettings.fogDensity = 0.27f;
+        var startDensity = RenderSettings.fogDensity;
 
         var startTmp = start.GetComponentInChildren<TextMeshProUGUI>();
         var settingTmp = setting.GetComponentInChildren<TextMeshProUGUI>();
@@ -73,6 +73,7 @@ public class StartMenuUI : MonoBehaviour
         {
             yield return null;
 
+            RenderSettings.fogDensity = startDensity + (1 - startDensity) * ((animationPlaytime - i) / animationPlaytime);
             title.color = new Color(title.color.r, title.color.g, title.color.b, i / animationPlaytime);
             startTmp.color = new Color(startTmp.color.r, startTmp.color.g, startTmp.color.b, i / animationPlaytime);
             settingTmp.color = new Color(settingTmp.color.r, settingTmp.color.g, settingTmp.color.b, i / animationPlaytime);
@@ -80,8 +81,15 @@ public class StartMenuUI : MonoBehaviour
         }
 
         ActiveUI(false);
+        Player.player.hasHandCam = true;
 
-        yield return new WaitForSeconds(1f);
+        for (float i = 0; i < 1; i += Time.deltaTime)
+        {
+            yield return null;
+            RenderSettings.fogDensity = 1 - 0.73f * i;
+        }
+
+        isAnimating = false;
         isStart = true;
     }
 }

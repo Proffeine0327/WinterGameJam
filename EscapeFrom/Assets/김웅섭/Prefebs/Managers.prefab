@@ -47,6 +47,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collections:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &5569188297598526750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +73,9 @@ MonoBehaviour:
   keys:
   - ConcreteWalk
   - metalDoor
+  - Bgm
+  - woodDoor
+  - DeathSound
   values:
   - clips:
     - {fileID: 8300000, guid: 10d71d1d238c11d4dbb8243d5d7224ae, type: 3}
@@ -77,4 +91,11 @@ MonoBehaviour:
   - clips:
     - {fileID: 8300000, guid: 94761455be646ee4e9e695538b6c7390, type: 3}
     - {fileID: 8300000, guid: 8d9ac6fa5d1347d41ac73dc6c796f97b, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 9a022ec2b0094fb468193b97e4fa5620, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 92626dd7cb8db224f9ed92098a3b9150, type: 3}
+    - {fileID: 8300000, guid: 7e960826b1f21ff45a6a84ae43a626bd, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 87bd468a51eaf7d45b91c96f8ee4c0d5, type: 3}
   masterVolume: 100
