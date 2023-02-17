@@ -41,6 +41,8 @@ public class Floor1Ghost : MonoBehaviour
             {
                 DeathUI.Death(deathImg);
             }
+
+            if (Player.player.isHide) ActiveBoss(false);
         }
 
         if (agent.enabled)

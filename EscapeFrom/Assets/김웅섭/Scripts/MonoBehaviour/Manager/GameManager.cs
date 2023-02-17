@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float trigget_1fghost_range;
     [SerializeField] private GameObject school_front_door_shutter;
 
-    private bool is_player_open_detail = false;
     private bool is_1fboss_displayed = false;
     private bool is_player_has_trigger_item = false;
 
@@ -31,35 +30,12 @@ public class GameManager : MonoBehaviour
         {
             if(!is_player_has_trigger_item)
                 is_player_has_trigger_item = Player.Items.Select((Item item) => item.gameObject.name ).Contains(active_1fghost_item_name);
-
-            if(
-                !is_player_open_detail &&
-                is_player_has_trigger_item && 
-                InventoryUI.ShowType == InventoryUIShowType.detail
-            )
-            {
-                Debug.Log("player open detail");
-                is_player_open_detail = true;
-            }
-
-            if(!is_1fboss_displayed && is_player_open_detail && InventoryUI.ShowType == InventoryUIShowType.disable)
-            {
-                Debug.Log("1fboss");
-                is_1fboss_displayed = true;
-                school_front_door_shutter.SetActive(true);
-                this.Invoke(() => {
-                    Floor1Ghost.ActiveBoss(true);
-                }, 2f);
-            }
             
             if(!is_1fboss_displayed && is_player_has_trigger_item && Physics.CheckSphere(trigger_1fghost_point, trigget_1fghost_range, LayerMask.GetMask("Player")))
             {
                 Debug.Log("1fboss2");
                 is_1fboss_displayed = true;
                 school_front_door_shutter.SetActive(true);
-                Floor1Ghost.Agent.enabled = false;
-                Floor1Ghost.ghost.transform.position = new Vector3(-13.61f,-3.566f,-1.36f);
-                Floor1Ghost.Agent.enabled = true;
                 Floor1Ghost.ActiveBoss(true);
             }       
         }

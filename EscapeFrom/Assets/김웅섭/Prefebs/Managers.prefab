@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5569188297598526751}
   - component: {fileID: 5569188297598526748}
   - component: {fileID: 5569188297598526750}
+  - component: {fileID: 799655573}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -76,6 +77,9 @@ MonoBehaviour:
   - Bgm
   - woodDoor
   - DeathSound
+  - TitleBgm
+  - GetMemo
+  - GetKey
   values:
   - clips:
     - {fileID: 8300000, guid: 10d71d1d238c11d4dbb8243d5d7224ae, type: 3}
@@ -94,8 +98,31 @@ MonoBehaviour:
   - clips:
     - {fileID: 8300000, guid: 9a022ec2b0094fb468193b97e4fa5620, type: 3}
   - clips:
-    - {fileID: 8300000, guid: 92626dd7cb8db224f9ed92098a3b9150, type: 3}
+    - {fileID: 8300000, guid: bfdf0899867024f46bc3d07aac7343e9, type: 3}
     - {fileID: 8300000, guid: 7e960826b1f21ff45a6a84ae43a626bd, type: 3}
   - clips:
     - {fileID: 8300000, guid: 87bd468a51eaf7d45b91c96f8ee4c0d5, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 87c59f52543429540b18ea6b22dea64b, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: a447beaf48347ff45933c00216c94a42, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 55a8b5f66c1105744890b75a12701c85, type: 3}
   masterVolume: 100
+--- !u!114 &799655573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569188297598526749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34afddfa49c6ea940a27029b083751f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStage: 0
+  active_1fghost_item_name: Memo_01_01
+  trigger_1fghost_point: {x: -9.079, y: -3.566, z: -2.604}
+  trigget_1fghost_range: 0.53
+  school_front_door_shutter: {fileID: 0}

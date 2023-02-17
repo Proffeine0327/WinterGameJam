@@ -15,12 +15,14 @@ public class HideObject : MonoBehaviour, IInteractable
             isHide = !isHide;
             Player.player.transform.position = transform.position + -transform.up * 1;
             Player.player.GetComponent<CharacterController>().enabled = true;
+            Player.player.isHide = false;
         }
         else
         {
             isHide = !isHide;
             Player.player.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
             Player.player.GetComponent<CharacterController>().enabled = false;
+            Player.player.isHide = true;
         }
     }
 
