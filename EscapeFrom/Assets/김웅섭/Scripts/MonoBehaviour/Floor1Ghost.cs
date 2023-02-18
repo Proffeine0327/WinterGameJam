@@ -10,6 +10,8 @@ public class Floor1Ghost : MonoBehaviour
     [SerializeField] private float doorCastLength;
     [SerializeField] private bool isAppeared;
 
+    private AudioSource audiosource;
+
     public static Floor1Ghost ghost;
 
     public static void ActiveBoss(bool active)
@@ -36,6 +38,12 @@ public class Floor1Ghost : MonoBehaviour
     {
         if(isAppeared)
         {
+            if(audiosource == null)
+            {
+                audiosource = SoundManager.PlaySound("Noise", 0, 0.7f, transform.position, true);
+            }
+            else audiosource.transform.position = transform.position;
+
             if(Vector3.Distance(transform.position, Player.player.transform.position) < 1f)
             {
                 DeathUI.Death(deathImg);

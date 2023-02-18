@@ -18,7 +18,7 @@ public class SoundManager : MonoBehaviour, ISerializationCallbackReceiver
         return manager.clipDictionary[key].Clips.Count;
     }
 
-    public static void PlaySound(string key, int index, float volume, Vector3 pos)
+    public static AudioSource PlaySound(string key, int index, float volume, Vector3 pos)
     {
         var obj = new GameObject(manager.clipDictionary[key].Clips[index].name);
         obj.transform.position = pos;
@@ -30,6 +30,26 @@ public class SoundManager : MonoBehaviour, ISerializationCallbackReceiver
         audiosource.Play();
 
         Destroy(obj, manager.clipDictionary[key].Clips[index].length + 1f);
+        return audiosource;
+    }
+
+    public static AudioSource PlaySound(string key, int index, float volume, Vector3 pos, bool loop)
+    {
+        var obj = new GameObject(manager.clipDictionary[key].Clips[index].name);
+        obj.transform.position = pos;
+        obj.transform.SetParent(manager.gameObject.transform);
+
+        var audiosource = obj.AddComponent<AudioSource>();
+        audiosource.clip = manager.clipDictionary[key].Clips[index];
+        audiosource.volume = volume * manager.masterVolume;
+        audiosource.Play();
+
+        if(!loop)
+            Destroy(obj, manager.clipDictionary[key].Clips[index].length + 1f);
+        else
+            audiosource.loop = true;
+        
+        return audiosource;
     }
 
     [SerializeField] private List<string> keys = new List<string>();
