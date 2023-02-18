@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager manager;
+    public static GameManager manager;
 
     [Header("1f")]
     [SerializeField] private int currentStage;
@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 trigger_1fghost_point;
     [SerializeField] private float trigget_1fghost_range;
     [SerializeField] private GameObject school_front_door_shutter;
+    [Header("end")]
+    public bool isEnd;
 
     private bool is_1fboss_displayed = false;
     private bool is_player_has_trigger_item = false;
@@ -57,6 +59,11 @@ public class GameManager : MonoBehaviour
 
         }
 
+
+        if(isEnd)
+        {
+            
+        }
     }
 
 

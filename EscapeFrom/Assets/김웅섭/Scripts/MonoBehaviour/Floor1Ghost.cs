@@ -53,7 +53,8 @@ public class Floor1Ghost : MonoBehaviour
         }
         else
         {
-            Destroy(audiosource.gameObject);
+            if(audiosource != null)
+                Destroy(audiosource.gameObject);
         }
 
         if (agent.enabled)

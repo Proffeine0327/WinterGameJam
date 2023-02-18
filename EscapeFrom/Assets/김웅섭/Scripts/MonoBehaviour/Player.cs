@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
     private void EventHandle()
     {
         //criteria
+        if (GameManager.manager.isEnd) return;
         if (!StartMenuUI.IsStart) return;
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;
@@ -119,7 +120,8 @@ public class Player : MonoBehaviour
             InventoryUI.ShowType != InventoryUIShowType.disable ||
             !StartMenuUI.IsStart ||
             !cc.enabled ||
-            isDeath
+            isDeath ||
+            GameManager.manager.isEnd
         )
         {
             h = 0;
@@ -169,6 +171,7 @@ public class Player : MonoBehaviour
     private void CameraRotation()
     {
         //criteria
+        if (GameManager.manager.isEnd) return;
         if (!StartMenuUI.IsStart) return;
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;
@@ -306,6 +309,7 @@ public class Player : MonoBehaviour
         }
 
         //criteria
+        if (GameManager.manager.isEnd) return;
         if (!StartMenuUI.IsStart) return;
         if (EscUI.IsShowing) return;
         if (SettingUI.IsShowing) return;

@@ -27,6 +27,10 @@ public class Floor4Ghost : MonoBehaviour
 
     public GameObject key;
 
+    public GameObject endTrigger;
+
+    public List<GameObject> schoolDoors = new List<GameObject>();
+
     public float curTime = 0;
     float noiseTime = 0;
     float beatTime = 2f;
@@ -86,6 +90,8 @@ public class Floor4Ghost : MonoBehaviour
         key.SetActive(true);
         
         shuter.SetActive(false);
+        endTrigger.SetActive(true);
+        foreach(var door in schoolDoors) door.SetActive(false);
         isEnable = false;
         SoundManager.PlaySound("metalDoor", 1, 1, shuter.transform.position);
         for(int i = 0; i < moniters.Length; i++)
