@@ -51,6 +51,10 @@ public class Floor1Ghost : MonoBehaviour
 
             if (Player.player.isHide) ActiveBoss(false);
         }
+        else
+        {
+            Destroy(audiosource.gameObject);
+        }
 
         if (agent.enabled)
         {
